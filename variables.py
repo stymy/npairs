@@ -1,11 +1,13 @@
 import os
+import csv
 
 workingdir = '/home/rschadmin/Data/ADHDworking_dir'
 phenofile = '/home/rschadmin/Data/zarrar_adhd200.csv'
 datadir = '/home/rschadmin/Data/ADHD/'
 
-subjects = os.listdir(datadir)[1:]
-derivs = ['alff_Z_img','centrality_outputs']
+#subjects = os.listdir(datadir)
+subjects = ['2081754_','2104012_',]
+derivs = ['centrality_outputs'] #'alff_Z_img',
 preprocs = ['_compcor_ncomponents_5_selector_pc10.linear1.wm0.global0.motion1.quadratic0.gm0.compcor1.csf0',
 '_compcor_ncomponents_5_selector_pc10.linear1.wm1.global1.motion1.quadratic0.gm0.compcor0.csf1']
 
