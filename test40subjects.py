@@ -7,7 +7,7 @@ import nipype.interfaces.io as nio
 import nipype.interfaces.afni as afni
 from nipype import JoinNode
 import os
-from classify import SVC
+from text_out import Text_out
 
 from variables import workingdir, datadir, subjects, derivs, preprocs
 
@@ -41,12 +41,12 @@ def get_wf():
         pheno_labels = pheno_dict.get(subject_id[:-1])
         return pheno_labels 
         
-        #TRAIN CLASSIFIERS
+    #TRAIN CLASSIFIERS
     #trainer = JoinNode(SVC(), joinsource='subject_id', name='trainer')
     #trainer.inputs.ignore_exception = True
-    trainer = pe.Node(SVC(), name="trainer")
-    wf.connect(datagrabber, 'deriv_files', trainer, 'in_file')
-    wf.connect(subject_id_infosource, ('subject_id', get_pheno), trainer, 'labels')
+    toText = pe.Node(Text_out(), name="trainer")
+    wf.connect(datagrabber, 'deriv_files', toText, 'in_file')
+    wf.connect(subject_id_infosource, ('subject_id', get_pheno), toText, 'labels')
          
     return wf
     
