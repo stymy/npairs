@@ -1,4 +1,4 @@
 npairs
 ======
 
-n-pairs implementation for prediction phenotype
+Python implementation of the NPAIRS framework based on scikit.learn and nilearn
