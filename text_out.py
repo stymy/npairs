@@ -1,6 +1,6 @@
 from nipype.interfaces.base import BaseInterface, \
     BaseInterfaceInputSpec, traits, File, TraitedSpec, InputMultiPath
-from variables import datadir
+from variables import datadir, derivdir
 import os
 
 class Text_outInputSpec(BaseInterfaceInputSpec):
@@ -17,7 +17,11 @@ class Text_out(BaseInterface):
     #PHENOTYPER
     def get_pheno(self, path):
         from variables import pheno_dict
-        subject_id=path.lstrip(datadir).split('_')[0]
+        if path.startswith(datadir):
+            subject_dir = path.lstrip(datadir)
+        if path.startswith(derivdir):
+            subject_dir = path.lstrip(derivdir).split('/')[1]
+        subject_id=subject_dir.split('_')[0]
         pheno_labels = pheno_dict.get(subject_id.lstrip("0"))
         return pheno_labels
     

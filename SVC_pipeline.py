@@ -8,13 +8,14 @@ import nipype.interfaces.io as nio
 import nipype.interfaces.afni as afni
 import os
 from text_out import Text_out
+from classify import Classify
 import numpy as np
 
 from variables import workingdir, datadir, derivdir, subjects, derivs, preprocs, pprocs, methods, deriv_types
 
 def get_wf():
     wf = pe.Workflow(name="svc_workflow")
-    wf.base_dir = os.path.join(workingdir,"allNpairs")
+    wf.base_dir = os.path.join(workingdir,"allNpairsSVC")
     wf.config['execution']['crashdump_dir'] = wf.base_dir + "/crash_files"
 
     #INFOSOURCE ITERABLES
@@ -38,7 +39,7 @@ def get_wf():
 
     #DATAGRABBER
     datagrabber = pe.Node(nio.DataGrabber(infields=['subject_id','deriv_id','preproc_id',
-    'deriv_type'], outfields=['methods_files','centrality_files']), name='datagrabber')
+    'deriv_type','pproc_id'], outfields=['methods_files','centrality_files']), name='datagrabber')
     datagrabber.inputs.base_directory = '/'
     datagrabber.inputs.template = '*'
     datagrabber.inputs.field_template = dict(methods_files=os.path.join(datadir,'%s*/%s/_scan_rest*/*/*/*/%s/*/*/*/*.nii.gz'),
@@ -60,6 +61,18 @@ def get_wf():
     
     toText2 = pe.JoinNode(Text_out(), joinsource='subject_id_infosource', joinfield="in_file", name="eigen_cent_b_text_files")
     wf.connect(datagrabber, 'centrality_files', toText2, 'in_file')
+    
+    #RUN CLASSIFIERs
+    classifier = pe.Node(Classify(), name='SVC_methods')
+    wf.connect(toText, 'label_file', classifier, 'label_file')
+    wf.connect(toText, 'data_paths', classifier, 'path_file')
+    
+    classifier2 = pe.Node(Classify(), name='SVC_eign_cent')
+    wf.connect(toText2, 'label_file', classifier2, 'label_file')
+    wf.connect(toText2, 'data_paths', classifier2, 'path_file') 
+    
+    #DATASINK
+    
          
     return wf
     
