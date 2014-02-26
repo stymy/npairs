@@ -78,7 +78,7 @@ def splitHalf(lbls,cnt,contlbls):
     # randomly generate cnt splits
     c = 0
     while c < cnt:
-                     
+        tmp_splits = splits[c]             
         for lbl in np.unique(lbls):
         
             # get the indices of the label
@@ -88,18 +88,19 @@ def splitHalf(lbls,cnt,contlbls):
             numL2 = int(round(lbls.count(lbl)/2))
         
             lHalf = np.random.choice(lNdx,size=numL2,replace=False)
-            splits[c,lHalf]=2
+            tmp_splits[lHalf]=2
 
         # calculate ttest for each of the continuous varaibles you would like to control for
         tests = 0
         for clbl in contlbls:
-            a = np.array(clbl)[splits[c]==1]
-            b = np.array(clbl)[splits[c]==2]
+            a = np.array(clbl)[tmp_splits==1]
+            b = np.array(clbl)[tmp_splits==2]
+            ttest = ttest_ind(a,b)[1]
+            print ttest
         # if all of the control variables are insignificant p > 0.5
-            tests = tests+int(ttest_ind(a,b)[1]>0.5)
+            tests = tests+int(ttest>0.5)
         # and if haven't previously generated that split
-        import pdb; pdb.set_trace()
-        if tests == len(contlbls) and any([all(splits[c] == x) for x in splits]):
+        if tests == len(contlbls) and any([all(tmp_splits == x) for x in splits]):
             c=c+1
         else:
             continue
