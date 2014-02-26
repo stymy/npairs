@@ -38,33 +38,10 @@ def get_wf():
     wf.connect(deriv_id_infosource, 'deriv_id', datagrabber, 'deriv_id')
     wf.connect(preproc_id_infosource, 'preproc_id', datagrabber, 'preproc_id')
     
-    #DO NOTHING HACK
-    def do_naught(in_put):
-        out_put = in_put
-        return out_put
-        
-    nothinger = pe.Node(utility.Function(function=do_naught,input_names=['in_put'],output_names=['out_put']), name="nothinger")
-    
-    wf.connect(subject_id_infosource, 'subject_id', nothinger, 'in_put')
-    
-    #PHENOTYPER
-    def get_pheno(subject_id_list):
-        from variables import pheno_dict
-        pheno_labels=[]
-        for subject_id in subject_id_list:
-            pheno_labels.append(pheno_dict.get(subject_id.lstrip("0")))
-        return pheno_labels
-        
-    #MAKE LABELS
-    labeler = pe.JoinNode(utility.Function(function=get_pheno,input_names=['subject_id_list'],output_names=['labels']), joinsource='subject_id_infosource', name="labeler")
-    
-    wf.connect(nothinger, 'out_put', labeler, 'subject_id_list')
-    
     #OUTPUT PATHS & LABELS
-    toText = pe.JoinNode(Text_out(), joinsource='subject_id_infosource', name="text_files")
+    toText = pe.JoinNode(Text_out(), joinsource='subject_id_infosource', joinfield="in_file", name="text_files")
     
     wf.connect(datagrabber, 'deriv_files', toText, 'in_file')
-    wf.connect(labeler, 'labels', toText, 'labels')
          
     return wf
     

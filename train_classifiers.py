@@ -3,15 +3,16 @@ import numpy as np
 from pyNPAIRS.core import NPAIRS
 from sklearn import svm
 from scipy.stats import ttest_ind
+import os
 
-from variables import label_file, data_paths
-
+from variables import workingdir
+directory = os.path.join(workingdir,'ADHD_npairs/svc_workflow/_deriv_id_alff_Z_to_standard_smooth/_preproc_id__compcor_ncomponents_5_selector_pc10.linear1.wm1.global1.motion1.quadratic0.gm0.compcor0.csf1/text_files/')
 labels=[]
 paths=[]
-with open(label_file, 'r') as f:
+with open(os.path.join(directory,'labels'), 'r') as f:
     for line in f:
         labels.append(line.strip().split(','))
-with open(data_paths, 'r') as f:
+with open(os.path.join(directory,'paths'), 'r') as f:
     paths=[line.strip() for line in f]
     
 #ADHD
@@ -98,7 +99,7 @@ def splitHalf(lbls,cnt,contlbls):
             tests = tests+int(ttest_ind(a,b)[1]>0.5)
         # and if haven't previously generated that split
         import pdb; pdb.set_trace()
-        if tests == len(contlbls)+1 and not any([all(splits[c] == x) for x in splits]):
+        if tests == len(contlbls) and any([all(splits[c] == x) for x in splits]):
             c=c+1
         else:
             continue

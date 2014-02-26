@@ -4,8 +4,7 @@ from variables import datadir
 import os
 
 class Text_outInputSpec(BaseInterfaceInputSpec):
-    in_file = traits.List(desc="fails for multiple files")
-    labels = traits.List(exists=True, desc="labels with phenotype values", mandatory=True)
+    in_file = traits.List(desc="multiple files in joinNode")
 
 class Text_outOutputSpec(TraitedSpec):
     label_file = traits.File(exists=True, desc="labels of phenotype")
@@ -16,21 +15,21 @@ class Text_out(BaseInterface):
     output_spec = Text_outOutputSpec
     
     #PHENOTYPER
-    def get_pheno(path):
+    def get_pheno(self, path):
         from variables import pheno_dict
-        path.lstrip(datadir).split('/')[0]
+        subject_id=path.lstrip(datadir).split('_')[0]
         pheno_labels = pheno_dict.get(subject_id.lstrip("0"))
-        return pheno_labels 
+        return pheno_labels
     
     def _run_interface(self, runtime):
         for x in self.inputs.in_file:
             with open('paths', 'a+b') as f:
                 f.write(x+'\n')
             with open('labels', 'a+b') as g:
-                for y in self.inputs.in_file:
+                for y in self.get_pheno(x):
                     g.write(y+',')
                 g.write('\n')
-            return runtime
+        return runtime
 
     def _list_outputs(self):
         outputs = self._outputs().get()
