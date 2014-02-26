@@ -27,6 +27,6 @@ class Text_out(BaseInterface):
 
     def _list_outputs(self):
         outputs = self._outputs().get()
-        outputs["label_file"] = os.path.abspath(label_file)
-        outputs["data_paths"] = os.path.abspath(data_paths)
+        outputs["label_file"] = os.path.abspath('labels')
+        outputs["data_paths"] = os.path.abspath('paths')
         return outputs
