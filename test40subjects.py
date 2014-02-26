@@ -14,7 +14,7 @@ from variables import workingdir, datadir, subjects, derivs, preprocs
 
 def get_wf():
     wf = pe.Workflow(name="svc_workflow")
-    wf.base_dir = os.path.join(workingdir,"ADHD_npairs")
+    wf.base_dir = os.path.join(workingdir,"npairs")
     wf.config['execution']['crashdump_dir'] = wf.base_dir + "/crash_files"
 
     #INFOSOURCE ITERABLES
