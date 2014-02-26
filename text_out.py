@@ -1,6 +1,6 @@
 from nipype.interfaces.base import BaseInterface, \
     BaseInterfaceInputSpec, traits, File, TraitedSpec, InputMultiPath
-from variables import label_file, data_paths
+from variables import datadir
 import os
 
 class Text_outInputSpec(BaseInterfaceInputSpec):
@@ -15,12 +15,19 @@ class Text_out(BaseInterface):
     input_spec = Text_outInputSpec
     output_spec = Text_outOutputSpec
     
+    #PHENOTYPER
+    def get_pheno(path):
+        from variables import pheno_dict
+        path.lstrip(datadir).split('/')[0]
+        pheno_labels = pheno_dict.get(subject_id.lstrip("0"))
+        return pheno_labels 
+    
     def _run_interface(self, runtime):
         for x in self.inputs.in_file:
-            with open(data_paths, 'a+b') as f:
+            with open('paths', 'a+b') as f:
                 f.write(x+'\n')
-            with open(label_file, 'a+b') as g:
-                for y in self.inputs.labels:
+            with open('labels', 'a+b') as g:
+                for y in self.inputs.in_file:
                     g.write(y+',')
                 g.write('\n')
             return runtime

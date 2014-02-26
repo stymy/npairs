@@ -11,11 +11,10 @@ subjects = [s.split('_')[0] for s in os.listdir(datadir)]
 exclude_subjects = ['2570769']#[, '2054310', ]
 subjects = list(set(subjects) - set(exclude_subjects))
 
-derivs = ['alff','falff']
-dg_template = dict(alff=os.path.join('%s*/alff_Z_to_standard_smooth/*/*/*/*/*/*/*/*/*.nii.gz'),\
-                  falff=os.path.join('%s*/falff_Z_to_standard_smooth/*/*/*/*/*/*/*/*/*.nii.gz'))
-dg_args =     dict(alff=[['subject_id']],\
-                  falff=[['subject_id']])
+derivs = ['alff_Z_to_standard_smooth','falff_Z_to_standard_smooth']
+preprocs =['_compcor_ncomponents_5_selector_pc10.linear1.wm0.global0.motion1.quadratic0.gm0.compcor1.csf0',
+ '_compcor_ncomponents_5_selector_pc10.linear1.wm1.global1.motion1.quadratic0.gm0.compcor0.csf1']
+
 #param files: aimiwat@gelert:/home2/data/Projects/ABIDE_Initiative/CPAC/Output_2013-11-22/pipeline_MerrittIsland/0050020_session_1/power_params/_scan_rest_1_rest/_threshold_0.2/power_params.txt
 
 #phenotype data
