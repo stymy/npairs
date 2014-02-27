@@ -105,7 +105,7 @@ class Classify(BaseInterface):
         dx = 1
         #continuous labels
         meanFD = 75
-        age = 4
+        age = 3
             
         imgNames = [paths[i] for i, y in enumerate(labels) if self.health(y,dx)]
         imgLabels = [y[sex]+self.hand(y,H)+y[site] for y in labels if self.health(y,dx)]
@@ -115,16 +115,17 @@ class Classify(BaseInterface):
         continuous_var = [imgAges,imgFD]
         ## from craddock pyNPAIRS
         # create variables for the basic information
-        maskName = self.inputs.mask_file
+        #maskName = self.inputs.mask_file
 
         # Read in the mask
-        try:
-            mskImg=nb.load(maskName)
-        except Exception as e:
-            print "Could not load mask %s: %s"%(maskName,e.strerror)
+        #try:
+            #mskImg=nb.load(maskName)
+        #except Exception as e:
+            #print "Could not load mask %s: %s"%(maskName,e.strerror)
 
         # find the nonzero indices of the mask
-        mskNdx = np.nonzero(mskImg.get_data())
+        #mskNdx = np.nonzero(mskImg.get_data())
+        maskNdx = np.nonzero(imgNames[0].get_data())
 
         # initialize array to hold dataset
         dataAry = np.zeros((np.shape(imgNames)[0],np.shape(mskNdx)[1]))
