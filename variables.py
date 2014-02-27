@@ -10,7 +10,11 @@ derivdir = datadir+'_DERIV/'
 outputdir = '/home/rschadmin/Data/ABIDE_SVC_output'
 
 phenodir = '/home/rschadmin/Data/DOCs/'
+#/home2/data/Originals/ABIDE/Docs/Phenotypics_motion_scannerProtocols/PhenotypicDataForConsortiumUse
 phenofiles = os.listdir(phenodir)
+motiondir = '/home2/data/Projets/ABIDE_Initiative'
+#motiondir = '/home2/data/Projects/ABIDE_Initiative/CPAC/Output_2013-11-22/pipeline_MerrittIsland'
+
 motionfiles = glob.glob(os.path.join(datadir+'/*/power_params/_scan_rest_1_rest/_threshold_0.2/*'))
 
 subjects = [s.split('_')[0] for s in os.listdir(datadir)]
