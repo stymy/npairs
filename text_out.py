@@ -17,12 +17,8 @@ class Text_out(BaseInterface):
     #PHENOTYPER
     def get_pheno(self, path):
         from variables import pheno_dict
-        if path.startswith(datadir):
-            subject_dir = path.lstrip(datadir)
-        if path.startswith(derivdir):
-            subject_dir = path.lstrip(derivdir).split('/')[1]
-        subject_id=subject_dir.split('_')[0]
-        pheno_labels = pheno_dict.get(subject_id.lstrip("0"))
+        subject_id = path.split('subject_id_')[1].split('/')[0] #find subject_id from path
+        pheno_labels = pheno_dict.get(subject_id.lstrip("0")) #dict strips leading zeros
         return pheno_labels
     
     def _run_interface(self, runtime):

@@ -125,7 +125,7 @@ class Classify(BaseInterface):
 
         # find the nonzero indices of the mask
         #mskNdx = np.nonzero(mskImg.get_data())
-        maskNdx = np.nonzero(imgNames[0].get_data())
+        mskNdx = np.nonzero(nb.load(imgNames[0]).get_data())
 
         # initialize array to hold dataset
         dataAry = np.zeros((np.shape(imgNames)[0],np.shape(mskNdx)[1]))
