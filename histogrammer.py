@@ -1,6 +1,10 @@
-from matplotlib import pyplot
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+plt.ioff()
+
 import numpy as np
-from variables import pheno_dict, phenotyped_subs
+from variables import pheno_dict, meta_subs
 from collections import defaultdict
 
 #discrete labels
@@ -14,15 +18,16 @@ meanFD = 75
 age = 3
 
 phenostats = defaultdict(list)
-for subject in phenotyped_subs:
+for subject in meta_subs:
+    print subject
     phenostats[pheno_dict.get(subject)[site_name].rstrip('.csv')].append(float(pheno_dict.get(subject)[age]))
 
 agebins = np.linspace(0,40,40)   
 
 for x in phenostats.viewkeys():
     print phenostats[x]
-    pyplot.hist(phenostats[x], agebins, alpha=0.3, label=x)
+    plt.hist(phenostats[x], agebins, alpha=0.3, label=x)
 
-pyplot.show()
-pyplot.legend()
-pylot.savefig('/home2/aimiwat/histogram.png')
+#plt.show()
+plt.legend(loc='upper right',fontsize='xx-small')
+plt.savefig('/home2/aimiwat/histogram.png')
