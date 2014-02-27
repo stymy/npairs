@@ -10,6 +10,7 @@ import os
 class ClassifyInputSpec(BaseInterfaceInputSpec):
     label_file = traits.File(exists=True, desc="labels")
     path_file = traits.File(exists=True, desc="paths")
+    mask_file = traits.File(exists=True, desc="brain_mask")
 
 class ClassifyOutputSpec(TraitedSpec):
     pred = traits.File(desc="prediction accuracy")
@@ -114,7 +115,7 @@ class Classify(BaseInterface):
         continuous_var = [imgAges,imgFD]
         ## from craddock pyNPAIRS
         # create variables for the basic information
-        maskName = "/home/rschadmin/Data/ADHDworking_dir/tst_mask.nii.gz"
+        maskName = self.inputs.mask_file
 
         # Read in the mask
         try:

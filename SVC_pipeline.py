@@ -11,11 +11,11 @@ from text_out import Text_out
 from classify import Classify
 import numpy as np
 
-from variables import workingdir, datadir, derivdir, subjects, derivs, preprocs, pprocs, methods, deriv_types
+from variables import workingdir, datadir, derivdir, outputdir, subjects, derivs, preprocs, pprocs, methods, deriv_types
 
 def get_wf():
     wf = pe.Workflow(name="svc_workflow")
-    wf.base_dir = os.path.join(workingdir,"allNpairsSVC")
+    wf.base_dir = os.path.join(workingdir,"testing")
     wf.config['execution']['crashdump_dir'] = wf.base_dir + "/crash_files"
 
     #INFOSOURCE ITERABLES
@@ -38,14 +38,15 @@ def get_wf():
     deriv_type_infosource.iterables = ('deriv_type', deriv_types)
 
     #DATAGRABBER
-    datagrabber = pe.Node(nio.DataGrabber(infields=['subject_id','deriv_id','preproc_id',
-    'deriv_type','pproc_id'], outfields=['methods_files','centrality_files']), name='datagrabber')
+    datagrabber = pe.Node(nio.DataGrabber(outfields=['methods_files','centrality_files','mask_file']), name='datagrabber')
     datagrabber.inputs.base_directory = '/'
     datagrabber.inputs.template = '*'
     datagrabber.inputs.field_template = dict(methods_files=os.path.join(datadir,'%s*/%s/_scan_rest*/*/*/*/%s/*/*/*/*.nii.gz'),
-                                            centrality_files= os.path.join(derivdir,'%s/%s*/*zscore/*/%s/*%s*.nii.gz'))
+                                            centrality_files= os.path.join(derivdir,'%s/%s*/*zscore/*/%s/*%s*.nii.gz'),
+                                            mask_file = os.path.join(datadir,'%s*/functional_brain_mask_to_standard/*/*.nii.gz'))
     datagrabber.inputs.template_args = dict(methods_files= [['subject_id', 'method_id','preproc_id']],
-                                            centrality_files= [['deriv_id','subject_id','pproc_id','deriv_type']])
+                                            centrality_files= [['deriv_id','subject_id','pproc_id','deriv_type']],
+                                            mask_file= [['subject_id']])
     datagrabber.inputs.sort_filelist = True
 
     wf.connect(subject_id_infosource, 'subject_id', datagrabber, 'subject_id')
@@ -64,15 +65,23 @@ def get_wf():
     
     #RUN CLASSIFIERs
     classifier = pe.Node(Classify(), name='SVC_methods')
+    wf.connect(datagrabber, 'mask_file', classifier, 'mask_file')
     wf.connect(toText, 'label_file', classifier, 'label_file')
     wf.connect(toText, 'data_paths', classifier, 'path_file')
     
     classifier2 = pe.Node(Classify(), name='SVC_eign_cent')
+    wf.connect(datagrabber, 'mask_file', classifier2, 'mask_file')
     wf.connect(toText2, 'label_file', classifier2, 'label_file')
     wf.connect(toText2, 'data_paths', classifier2, 'path_file') 
     
     #DATASINK
+    ds = pe.Node(nio.DataSink(), name='datasink')
+    ds.inputs.base_directory = outputdir
     
+    wf.connect(classifier, 'pred', ds, 'prediction_accuracy')
+    wf.connect(classifier, 'rep', ds, 'reproducibility')
+    wf.connect(classifier2, 'pred', ds, 'prediction_accuracy_cent')
+    wf.connect(classifier2, 'rep', ds, 'reproducibility_cent')
          
     return wf
     
