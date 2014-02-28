@@ -17,7 +17,7 @@ from text_out import Text_out
 from classify import Classify
 import numpy as np
 
-from variables import workingdir, datadir, outputdir, subjects, scans, preprocs, pipelines, dg_template, dg_args
+from CPACvariables import workingdir, datadir, outputdir, subjects, scans, preprocs, pipelines, dg_template, dg_args
 
 def get_wf():
     wf = pe.Workflow(name="svc_workflow")
@@ -98,4 +98,4 @@ if __name__=='__main__':
     wf = get_wf()
     #wf.run(plugin="CondorDAGMan", plugin_args={"template":"universe = vanilla\nnotification = Error\ngetenv = true\nrequest_memory=4000"})
     #wf.run(plugin="MultiProc", plugin_args={"n_procs":16})
-    wf.run(plugin="Linear")  
+    wf.run(plugin="MultiProc")  
