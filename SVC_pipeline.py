@@ -1,3 +1,6 @@
+import sys
+nipype_path = "/home2/aimiwat/code/nipype-install/lib/python2.7/site-packages/"
+sys.path.insert(0,nipype_path)
 from nipype import config
 cfg = dict(logging=dict(workflow_level = 'DEBUG'),
            execution={'stop_on_first_crash': True,
@@ -14,7 +17,7 @@ from text_out import Text_out
 from classify import Classify
 import numpy as np
 
-from variables import workingdir, datadir, derivdir, outputdir, subjects, scans, preprocs
+from variables import workingdir, datadir, outputdir, subjects, scans, preprocs
 
 def get_wf():
     wf = pe.Workflow(name="svc_workflow")
