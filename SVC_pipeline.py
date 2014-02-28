@@ -38,7 +38,7 @@ def get_wf():
     pipeline_id_infosource.iterables = ('pipeline_id', pipelines)
 
     #DATAGRABBER
-    datagrabber = pe.Node(nio.DataGrabber(infields=['subject_id', 'scan_id','preproc_id','pipeline_id'], outfields=['falff_files','dr_files','reho_files','mask_file']), name='datagrabber')
+    datagrabber = pe.Node(nio.DataGrabber(infields=['subject_id', 'scan_id','preproc_id','pipeline_id'], outfields=['falff_files','dr_files','reho_files']), name='datagrabber')
     datagrabber.inputs.base_directory = '/'
     datagrabber.inputs.template = '*'
     datagrabber.inputs.field_template = dg_template
@@ -65,18 +65,14 @@ def get_wf():
     classifier = pe.Node(Classify(), name='SVC_falff')
     wf.connect(toText, 'label_file', classifier, 'label_file')
     wf.connect(toText, 'data_paths', classifier, 'path_file')
-    wf.connect(datagrabber, 'mask_file', classifier, 'mask_file')
     
     classifier2 = pe.Node(Classify(), name='SVC_reho')
     wf.connect(toText2, 'label_file', classifier2, 'label_file')
     wf.connect(toText2, 'data_paths', classifier2, 'path_file') 
-    wf.connect(datagrabber, 'mask_file', classifier2, 'mask_file')
     
     classifier3 = pe.Node(Classify(), name='SVC_dr')
     wf.connect(toText3, 'label_file', classifier3, 'label_file')
     wf.connect(toText3, 'data_paths', classifier3, 'path_file')
-    wf.connect(datagrabber, 'mask_file', classifier3, 'mask_file')
-    
     #DATASINK
     ds = pe.Node(nio.DataSink(), name='datasink')
     ds.inputs.base_directory = outputdir

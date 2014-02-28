@@ -116,7 +116,7 @@ class Classify(BaseInterface):
         continuous_var = [imgAges,imgFD]
         ## from craddock pyNPAIRS
         # create variables for the basic information
-        maskName = self.inputs.mask_file
+        maskName = '/data/Projects/ABIDE_Initiative/CPAC/abide/for_grant/rois/mask_100percent.nii.gz'
 
         # Read in the mask
         try:

@@ -13,8 +13,7 @@ datadir = '/home2/data/Projects/ABIDE_Initiative/DPARSF/ReNormalize'
 
 dg_template = dict(dr_files= os.path.join(datadir,'%s/dual_regression/*%s*.nii'),
                    reho_files= os.path.join(datadir,'*%s/reho/*%s*.nii'),
-                   falff_files=os.path.join(datadir,'*%s/falff/*%s*.nii'),
-                   mask_file = os.path.join(datadir,'/data/Projects/ABIDE_Initiative/CPAC/abide/for_grant/rois/mask_100percent.nii.gz'))
+                   falff_files=os.path.join(datadir,'*%s/falff/*%s*.nii'))
 
 dg_args = dict(falff_files= [['preproc_id','subject_id']],
                                             reho_files= [['preproc_id','subject_id']],
