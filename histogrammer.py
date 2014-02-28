@@ -27,22 +27,10 @@ for subject in meta_subs:
 
 agebins = np.linspace(0,40,40)   
 
-for x in phenostats.viewkeys():
-    plt.hist(phenostats[x], agebins, alpha=0.3, label=x)
+for x in phenoage.viewkeys():
+    print phenoage[x]
+    plt.hist(phenoage[x], agebins, alpha=0.3, label=x)
 
-plt.show()
+#plt.show()
 plt.legend(loc='upper right',fontsize='xx-small')
-#plt.savefig('/home2/aimiwat/histogram.png')
-
-#Stats
-# 12-18 
-# meanFD<0.2
-
-# 557 healthy controls
-# 282 in age range
-# 429 in FD range
-# 220 in both ranges
-
-
-# age_in_range = np.multiply(age>11, age<19)
-# final_list = healthy_subs[total_in_range] 
+plt.savefig('/home2/aimiwat/histogram.png')

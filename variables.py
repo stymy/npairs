@@ -6,16 +6,16 @@ from collections import defaultdict
 dataset = 'ABIDE'
 
 workingdir = '/home/rschadmin/Data/'+dataset+'working_dir'
-datadir = '/home/rschadmin/Data/'+dataset
+#datadir = '/home/rschadmin/Data/'+dataset
+datadir = '/home2/data/Originals/'
 derivdir = datadir+'_DERIV/'
 outputdir = '/home/rschadmin/Data/ABIDE_SVC_output/'
 
-phenodir = '/home/rschadmin/Data/DOCs/'
-#/home2/data/Originals/ABIDE/Docs/Phenotypics_motion_scannerProtocols/PhenotypicDataForConsortiumUse
+#phenodir = '/home/rschadmin/Data/DOCs/'
+phenodir = '/home2/data/Originals/ABIDE/Docs/Phenotypics_motion_scannerProtocols/PhenotypicDataForConsortiumUse/'
 phenofiles = os.listdir(phenodir)
 motiondir = datadir
 #motiondir = '/home2/data/Projects/ABIDE_Initiative/CPAC/Output_2013-11-22/pipeline_MerrittIsland'
-
 motionfiles = glob.glob(os.path.join(motiondir+'/*/power_params/_scan_rest_1_rest/_threshold_0.2/*'))
 
 subjects = set()
@@ -56,6 +56,7 @@ for i, phenofile in enumerate(phenofiles):
             pheno_dict[row[0]].append(str(i)) #add csv id number
             pheno_dict[row[0]].append(phenofile) # add site name by csv
             phenotyped_subs.add(row[0])
+
 for motionfile in motionfiles:
     with open(motionfile,'rU') as f:
         reader = csv.reader(f,delimiter=",")
@@ -65,5 +66,3 @@ for motionfile in motionfiles:
             pheno_dict[subject].append(row[2]) # add meanFD to dictionary
             motiontyped_subs.add(subject)
 meta_subs = phenotyped_subs & motiontyped_subs
-
-
