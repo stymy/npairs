@@ -102,10 +102,10 @@ class Classify(BaseInterface):
         #discrete labels
         sex = 4
         H = 5
-        site = 73
+        site = 10
         dx = 1
         #continuous labels
-        meanFD = 75
+        meanFD = 12
         age = 3
             
         imgNames = [paths[i] for i, y in enumerate(labels) if self.health(y,dx)]
