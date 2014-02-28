@@ -6,6 +6,7 @@ from pyNPAIRS.core import NPAIRS
 from sklearn import svm
 from scipy.stats import ttest_ind
 import os
+from nipype.utils.filemanip import split_filename
 
 class ClassifyInputSpec(BaseInterfaceInputSpec):
     label_file = traits.File(exists=True, desc="labels")
@@ -115,17 +116,16 @@ class Classify(BaseInterface):
         continuous_var = [imgAges,imgFD]
         ## from craddock pyNPAIRS
         # create variables for the basic information
-        #maskName = self.inputs.mask_file
+        maskName = self.inputs.mask_file
 
         # Read in the mask
-        #try:
-            #mskImg=nb.load(maskName)
-        #except Exception as e:
-            #print "Could not load mask %s: %s"%(maskName,e.strerror)
+        try:
+            mskImg=nb.load(maskName)
+        except Exception as e:
+            print "Could not load mask %s: %s"%(maskName,e.strerror)
 
         # find the nonzero indices of the mask
-        #mskNdx = np.nonzero(mskImg.get_data())
-        mskNdx = np.nonzero(nb.load(imgNames[0]).get_data())
+        mskNdx = np.nonzero(mskImg.get_data())
 
         # initialize array to hold dataset
         dataAry = np.zeros((np.shape(imgNames)[0],np.shape(mskNdx)[1]))
@@ -150,13 +150,15 @@ class Classify(BaseInterface):
         # determine
         nprs=NPAIRS(dataAry, imgLabels,svcClassifier,splits)
         (pred,rep)=nprs.run()
-        np.save("prediction_accuracy",pred)
-        np.save("reproducibility",rep)
+        _, base, _ = split_filename(self.inputs.path_file[0])
+        np.save(os.path.abspath(base+"prediction_accuracy.npy"),pred)
+        np.save(os.path.abspath(base+"reproducibility.npy"),rep)
         
         return runtime
         
     def _list_outputs(self):
         outputs = self._outputs().get()
-        outputs["pred"] = os.path.abspath('prediction_accuracy')
-        outputs["rep"] = os.path.abspath('reproducibility')
+        _, base, _ = split_filename(self.inputs.path_file[0])
+        outputs["pred"] = os.path.abspath(base+'prediction_accuracy.npy')
+        outputs["rep"] = os.path.abspath(base+'reproducibility.npy')
         return outputs

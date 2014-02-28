@@ -8,7 +8,7 @@ dataset = 'ABIDE'
 workingdir = '/home/rschadmin/Data/'+dataset+'working_dir'
 datadir = '/home/rschadmin/Data/'+dataset
 derivdir = datadir+'_DERIV/'
-outputdir = '/home/rschadmin/Data/ABIDE_SVC_output'
+outputdir = '/home/rschadmin/Data/ABIDE_SVC_output/'
 
 phenodir = '/home/rschadmin/Data/DOCs/'
 #/home2/data/Originals/ABIDE/Docs/Phenotypics_motion_scannerProtocols/PhenotypicDataForConsortiumUse

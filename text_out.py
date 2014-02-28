@@ -17,7 +17,7 @@ class Text_out(BaseInterface):
     #PHENOTYPER
     def get_pheno(self, path):
         from variables import pheno_dict
-        subject_id = path.split('subject_id_')[1].split('/')[0] #find subject_id from path
+        subject_id = path.split('_session_1')[0].split('/')[-1] #find subject_id from path
         pheno_labels = pheno_dict.get(subject_id.lstrip("0")) #dict strips leading zeros
         return pheno_labels
     

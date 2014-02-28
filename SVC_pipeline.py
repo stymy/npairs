@@ -9,7 +9,6 @@ import nipype.pipeline.utils as util
 import nipype.interfaces.utility as utility
 import nipype.interfaces.io as nio
 import nipype.interfaces.afni as afni
-import nipype.interfaces.fsl as fsl
 import os
 from text_out import Text_out
 from classify import Classify
@@ -66,15 +65,29 @@ def get_wf():
     wf.connect(preproc_id_infosource, 'preproc_id', datagrabber, 'preproc_id')
     #wf.connect(pproc_id_infosource, 'pproc_id', datagrabber, 'pproc_id')
     
-    #APPLY MASKS
-    masker = pe.Node(fsl.ApplyMask(), name='masker')
-    masker.inputs.terminal_output = 'file'
-    wf.connect(datagrabber, 'methods_files', masker, 'in_file')
-    wf.connect(datagrabber, 'mask_file', masker, 'mask_file')
+    #CONCATENATE MASKS
+    maskcat = pe.JoinNode(afni.TCat(), joinsource='subject_id_infosource', joinfield='in_files', name='maskcat')
+    maskcat.inputs.terminal_output = 'file'
+    maskcat.inputs.outputtype = 'NIFTI'
+    wf.connect(datagrabber, 'mask_file', maskcat, 'in_files')
+
+    #MEAN MASKS
+    maskmerge = pe.Node(afni.TStat(), name='maskmerge')
+    maskmerge.inputs.terminal_output = 'file'
+    maskmerge.inputs.args='-mean'
+    maskmerge.inputs.outputtype = 'NIFTI'
+    wf.connect(maskcat, 'out_file', maskmerge, 'in_file')
+    
+    #THRESH MASKS to compute intersect of all subjects masks
+    maskthresh = pe.Node(afni.Calc(), name='maskthresh')
+    maskthresh.inputs.expr = 'ispositive(a-.97)'
+    maskthresh.inputs.outputtype = 'NIFTI'
+    wf.connect(maskmerge, 'out_file', maskthresh, 'in_file_a')
     
     #OUTPUT PATHS & LABELS
     toText = pe.JoinNode(Text_out(), joinsource='subject_id_infosource', joinfield="in_file", name="methods_text_files")
-    wf.connect(masker, 'out_file', toText, 'in_file')
+    wf.connect(datagrabber, 'methods_files', toText, 'in_file')
+
     
     #toText2 = pe.JoinNode(Text_out(), joinsource='subject_id_infosource', joinfield="in_file", name="eigen_cent_b_text_files")
     #wf.connect(datagrabber, 'centrality_files', toText2, 'in_file')
@@ -82,9 +95,10 @@ def get_wf():
 
     
     #RUN CLASSIFIERs
-    classifier = pe.Node(Classify(), name='SVC_methods')
+    classifier = pe.Node(Classify(), name='Classified')
     wf.connect(toText, 'label_file', classifier, 'label_file')
     wf.connect(toText, 'data_paths', classifier, 'path_file')
+    wf.connect(maskthresh, 'out_file', classifier, 'mask_file')
     
     #classifier2 = pe.Node(Classify(), name='SVC_eign_cent')
     #wf.connect(datagrabber, 'mask_file', classifier2, 'mask_file')
@@ -110,4 +124,4 @@ if __name__=='__main__':
     wf = get_wf()
     #wf.run(plugin="CondorDAGMan", plugin_args={"template":"universe = vanilla\nnotification = Error\ngetenv = true\nrequest_memory=4000"})
     #wf.run(plugin="MultiProc", plugin_args={"n_procs":16})
-    wf.run(plugin="Linear", stop_on_first_crash=False)  
+    wf.run(plugin="Linear")  
