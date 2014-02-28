@@ -1,6 +1,5 @@
 from nipype.interfaces.base import BaseInterface, \
     BaseInterfaceInputSpec, traits, File, TraitedSpec, InputMultiPath
-from variables import datadir
 import os
 
 class Text_outInputSpec(BaseInterfaceInputSpec):

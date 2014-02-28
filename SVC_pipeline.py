@@ -17,7 +17,7 @@ from text_out import Text_out
 from classify import Classify
 import numpy as np
 
-from variables import workingdir, datadir, outputdir, subjects, scans, preprocs
+from variables import workingdir, datadir, outputdir, subjects, scans, preprocs, pipelines, dg_template, dg_args
 
 def get_wf():
     wf = pe.Workflow(name="svc_workflow")
@@ -33,27 +33,21 @@ def get_wf():
 
     preproc_id_infosource = pe.Node(util.IdentityInterface(fields=['preproc_id']), name="preproc_id_infosource")
     preproc_id_infosource.iterables = ('preproc_id', preprocs)
+    
+    pipeline_id_infosource = pe.Node(util.IdentityInterface(fields=['pipeline_id']),name='pipeline_id_infosource')
+    pipeline_id_infosource.iterables = ('pipeline_id', pipelines)
 
     #DATAGRABBER
-    datagrabber = pe.Node(nio.DataGrabber(infields=['subject_id', 'scan_id','preproc_id'], outfields=['falff_files','dr_files','reho_files','mask_file']), name='datagrabber')
+    datagrabber = pe.Node(nio.DataGrabber(infields=['subject_id', 'scan_id','preproc_id','pipeline_id'], outfields=['falff_files','dr_files','reho_files','mask_file']), name='datagrabber')
     datagrabber.inputs.base_directory = '/'
     datagrabber.inputs.template = '*'
-    datagrabber.inputs.field_template = dict(dr_files= os.path.join(datadir,'*%s*/dr_tempreg_maps_z_stack_to_standard/_scan_rest_%s_rest/*/*/*/%s/*/*.nii.gz'),
-                                            reho_files= os.path.join(datadir,'*%s*/reho_Z_to_standard_smooth/_scan_rest_%s_rest/*/*/*/%s/*/*.nii.gz'),
-                                            falff_files=os.path.join(datadir,'*%s*/falff_Z_to_standard_smooth/_scan_rest_%s_rest/*/*/*/%s/*/*/*/*.nii.gz'),
-                                            mask_file = os.path.join(datadir,'*%s*/functional_brain_mask_to_standard/_scan_rest_%s_rest/*.nii.gz'))
-                                            #centrality_files= os.path.join(derivdir,'%s/%s*/*zscore/*/%s/*%s*.nii.gz'),
-                                            
-    datagrabber.inputs.template_args = dict(falff_files= [['subject_id', 'scan_id','preproc_id']],
-                                            reho_files= [['subject_id', 'scan_id','preproc_id']],
-                                            dr_files= [['subject_id', 'scan_id','preproc_id']],
-                                            mask_file= [['subject_id','scan_id']])
-                                             #centrality_files= [['deriv_id','subject_id','pproc_id','deriv_type']],
-                                           
+    datagrabber.inputs.field_template = dg_template
+    datagrabber.inputs.template_args = dg_args
     datagrabber.inputs.sort_filelist = True
 
     wf.connect(subject_id_infosource, 'subject_id', datagrabber, 'subject_id')
     wf.connect(scan_id_infosource, 'scan_id', datagrabber, 'scan_id')
+    wf.connect(preproc_id_infosource, 'preproc_id', datagrabber, 'preproc_id')
     wf.connect(preproc_id_infosource, 'preproc_id', datagrabber, 'preproc_id')
     
     #CONCATENATE MASKS
