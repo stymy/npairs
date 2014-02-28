@@ -1,7 +1,7 @@
 from nipype import config
 cfg = dict(logging=dict(workflow_level = 'DEBUG'),
-           execution={'stop_on_first_crash': False,
-                      'hash_method': 'content'})
+           execution={'stop_on_first_crash': True,
+                      'hash_method': 'timestamp'})
 config.update_config(cfg)
 
 import nipype.pipeline.engine as pe
@@ -48,8 +48,8 @@ def get_wf():
     datagrabber = pe.Node(nio.DataGrabber(infields=['subject_id', 'method_id','scan_id','preproc_id'], outfields=['methods_files','mask_file']), name='datagrabber')
     datagrabber.inputs.base_directory = '/'
     datagrabber.inputs.template = '*'
-    datagrabber.inputs.field_template = dict(methods_files=os.path.join(datadir,'%s*/%s/_scan_rest_%s_rest/*/*/*/%s/*/*/*/*.nii.gz'),
-                                            mask_file = os.path.join(datadir,'%s*/functional_brain_mask_to_standard/_scan_rest_%s_rest/*.nii.gz'))
+    datagrabber.inputs.field_template = dict(methods_files=os.path.join(datadir,'*%s*/%s/_scan_rest_%s_rest/*/*/*/%s/*/*/*/*.nii.gz'),
+                                            mask_file = os.path.join(datadir,'*%s*/functional_brain_mask_to_standard/_scan_rest_%s_rest/*.nii.gz'))
                                             #centrality_files= os.path.join(derivdir,'%s/%s*/*zscore/*/%s/*%s*.nii.gz'),
                                             
     datagrabber.inputs.template_args = dict(methods_files= [['subject_id', 'method_id','scan_id','preproc_id']],

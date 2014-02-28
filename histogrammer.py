@@ -2,7 +2,6 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 plt.ioff()
-
 import numpy as np
 from variables import pheno_dict, meta_subs
 from collections import defaultdict
@@ -17,16 +16,20 @@ dx = 1
 meanFD = 75
 age = 3
 
-phenostats = defaultdict(list)
+phenoage = defaultdict(list)
+phenoFD = defaultdict(list)
+
 for subject in meta_subs:
-    print subject
-    phenostats[pheno_dict.get(subject)[site_name].rstrip('.csv')].append(float(pheno_dict.get(subject)[age]))
+    info = pheno_dict.get(subject)
+    if not int(info[dx])==1: # only healthy controls
+        phenoage[info[site_name].rstrip('.csv')].append(float(info[age])) #age dictionary
+        phenoFD[info[site_name].rstrip('.csv')].append(float(info[meanFD])) #head motion dictionary
 
 agebins = np.linspace(0,40,40)   
 
-for x in phenostats.viewkeys():
-    print phenostats[x]
-    plt.hist(phenostats[x], agebins, alpha=0.3, label=x)
+for x in phenoage.viewkeys():
+    print phenoage[x]
+    plt.hist(phenoage[x], agebins, alpha=0.3, label=x)
 
 #plt.show()
 plt.legend(loc='upper right',fontsize='xx-small')
