@@ -18,8 +18,7 @@ dg_template = dict(dr_files= os.path.join(datadir,'%s/*%s*/dr_tempreg_maps_z_sta
 
 dg_args = dict(falff_files= [['pipeline_id','subject_id', 'scan_id','preproc_id']],
                                             reho_files= [['pipeline_id','subject_id', 'scan_id','preproc_id']],
-                                            dr_files= [['pipeline_id','subject_id', 'scan_id','preproc_id']],
-                                            mask_file= [['pipeline_id','subject_id','scan_id']])
+                                            dr_files= [['pipeline_id','subject_id', 'scan_id','preproc_id']])
 
 #outputdir = '/home/rschadmin/Data/ABIDE_SVC_output'
 outputdir = '/data/Projects/ABIDE_Initiative/CPAC/abide/for_grant/SVC_output_cpac'

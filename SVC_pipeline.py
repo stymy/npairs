@@ -48,26 +48,7 @@ def get_wf():
     wf.connect(subject_id_infosource, 'subject_id', datagrabber, 'subject_id')
     wf.connect(scan_id_infosource, 'scan_id', datagrabber, 'scan_id')
     wf.connect(preproc_id_infosource, 'preproc_id', datagrabber, 'preproc_id')
-    wf.connect(preproc_id_infosource, 'preproc_id', datagrabber, 'preproc_id')
-    
-    #CONCATENATE MASKS
-    maskcat = pe.JoinNode(afni.TCat(), joinsource='subject_id_infosource', joinfield='in_files', name='maskcat')
-    maskcat.inputs.terminal_output = 'file'
-    maskcat.inputs.outputtype = 'NIFTI'
-    wf.connect(datagrabber, 'mask_file', maskcat, 'in_files')
-
-    #MEAN MASKS
-    maskmerge = pe.Node(afni.TStat(), name='maskmerge')
-    maskmerge.inputs.terminal_output = 'file'
-    maskmerge.inputs.args='-mean'
-    maskmerge.inputs.outputtype = 'NIFTI'
-    wf.connect(maskcat, 'out_file', maskmerge, 'in_file')
-    
-    #THRESH MASKS to compute intersect of all subjects masks
-    maskthresh = pe.Node(afni.Calc(), name='maskthresh')
-    maskthresh.inputs.expr = 'ispositive(a-.97)'
-    maskthresh.inputs.outputtype = 'NIFTI'
-    wf.connect(maskmerge, 'out_file', maskthresh, 'in_file_a')
+    wf.connect(pipeline_id_infosource, 'pipeline_id', datagrabber, 'pipeline_id')
     
     #OUTPUT PATHS & LABELS
     toText = pe.JoinNode(Text_out(), joinsource='subject_id_infosource', joinfield="in_file", name="falff_text_files")
@@ -84,17 +65,17 @@ def get_wf():
     classifier = pe.Node(Classify(), name='SVC_falff')
     wf.connect(toText, 'label_file', classifier, 'label_file')
     wf.connect(toText, 'data_paths', classifier, 'path_file')
-    wf.connect(maskthresh, 'out_file', classifier, 'mask_file')
+    wf.connect(datagrabber, 'mask_file', classifier, 'mask_file')
     
     classifier2 = pe.Node(Classify(), name='SVC_reho')
     wf.connect(toText2, 'label_file', classifier2, 'label_file')
     wf.connect(toText2, 'data_paths', classifier2, 'path_file') 
-    wf.connect(maskthresh, 'out_file', classifier2, 'mask_file')
+    wf.connect(datagrabber, 'mask_file', classifier2, 'mask_file')
     
     classifier3 = pe.Node(Classify(), name='SVC_dr')
     wf.connect(toText3, 'label_file', classifier3, 'label_file')
     wf.connect(toText3, 'data_paths', classifier3, 'path_file')
-    wf.connect(maskthresh, 'out_file', classifier3, 'mask_file')
+    wf.connect(datagrabber, 'mask_file', classifier3, 'mask_file')
     
     #DATASINK
     ds = pe.Node(nio.DataSink(), name='datasink')
