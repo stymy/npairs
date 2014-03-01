@@ -7,7 +7,7 @@ from collections import defaultdict
 dataset = 'CPAC'
 
 #workingdir = '/home/rschadmin/Data/'+dataset+'working_dir'
-workingdir = '/data/Projects/ABIDE_Initiative/CPAC/abide/for_grant/SVC_workingdir_cpac'
+workingdir = '/data/Projects/ABIDE_Initiative/CPAC/abide/for_grant/SVC_workingdir_cpac2'
 #datadir = '/home/rschadmin/Data/'+dataset
 datadir = '/home2/data/Projects/ABIDE_Initiative/CPAC/Output_2013-11-22/pipeline_MerrittIsland/'
 
