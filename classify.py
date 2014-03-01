@@ -146,15 +146,15 @@ class Classify(BaseInterface):
         # create the classifier that we intend to use
         svcClassifier = svm.LinearSVC(C=100.0)
         splits = self.splitHalf(imgLabels,10,continuous_var)
-
+        np.save(os.path.abspath(base+"img_labels.npy"),imgLabels)
+        np.save(os.path.abspath(base+"splits.npy"),splits)
         # determine
         nprs=NPAIRS(dataAry, y[sex],svcClassifier,splits)
         (pred,rep)=nprs.run()
         _, base, _ = split_filename(self.inputs.path_file[0])
         np.save(os.path.abspath(base+"prediction_accuracy.npy"),pred)
         np.save(os.path.abspath(base+"reproducibility.npy"),rep)
-        np.save(os.path.abspath(base+"img_labels.npy"),imgLabels)
-        np.save(os.path.abspath(base+"splits.npy"),splits)
+
         
         return runtime
         
