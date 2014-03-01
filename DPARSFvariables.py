@@ -11,7 +11,7 @@ workingdir = '/data/Projects/ABIDE_Initiative/CPAC/abide/for_grant/SVC_workingdi
 #datadir = '/home/rschadmin/Data/'+dataset
 datadir = '/home2/data/Projects/ABIDE_Initiative/DPARSF/ReNormalize'
 
-dg_template = dict(dr_files= os.path.join(datadir,'%s/dual_regression/*%s*.nii'),
+dg_template = dict(dr_files= os.path.join(datadir,'*%s/dual_regression/*%s*.nii'),
                    reho_files= os.path.join(datadir,'*%s/reho/*%s*.nii'),
                    falff_files=os.path.join(datadir,'*%s/falff/*%s*.nii'))
 
