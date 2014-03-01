@@ -20,7 +20,7 @@ dg_args = dict(falff_files= [['subject_id', 'scan_id','preproc_id']],
                                             dr_files= [['subject_id', 'scan_id','preproc_id']])
 
 #outputdir = '/home/rschadmin/Data/ABIDE_SVC_output'
-outputdir = '/data/Projects/ABIDE_Initiative/CPAC/abide/for_grant/SVC_output_cpac'
+outputdir = '/data/Projects/ABIDE_Initiative/CPAC/abide/for_grant/SVC_output_cpac2'
 
 subjects =  list(np.load('/data/Projects/ABIDE_Initiative/CPAC/abide/for_grant/abideSubjects_HC_12-19_mFD2_reviZed.npy'))
 scans = ['1']

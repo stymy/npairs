@@ -11,8 +11,6 @@ workingdir = '/data/Projects/ABIDE_Initiative/CPAC/abide/for_grant/SVC_workingdi
 #datadir = '/home/rschadmin/Data/'+dataset
 datadir = '/home2/data/Projects/ABIDE_Initiative/CPAC/Output_2013-11-22/pipeline_MerrittIsland/'
 #derivdir = datadir+'_DERIV/'
-#outputdir = '/home/rschadmin/Data/ABIDE_SVC_output'
-outputdir = '/data/Projects/ABIDE_Initiative/CPAC/abide/for_grant/SVC_output'
 
 #phenodir = '/home/rschadmin/Data/DOCs/'
 phenodir = '/home2/data/Originals/ABIDE/Docs/Phenotypics_motion_scannerProtocols/PhenotypicDataForConsortiumUse/'
