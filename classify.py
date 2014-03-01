@@ -16,7 +16,10 @@ class ClassifyInputSpec(BaseInterfaceInputSpec):
 class ClassifyOutputSpec(TraitedSpec):
     pred = traits.File(desc="prediction accuracy")
     rep = traits.File(desc="reproducibility")
-    
+    imgs = traits.File(desc="img labels")
+    splits = traits.File(desc="splits")
+    sexs = traits.File(desc="sex labels")
+
 class Classify(BaseInterface):
     input_spec = ClassifyInputSpec
     output_spec = ClassifyOutputSpec
@@ -153,6 +156,7 @@ class Classify(BaseInterface):
         np.save(os.path.abspath(base+"img_labels.npy"),imgLabels)
         np.save(os.path.abspath(base+"splits.npy"),splits)
         np.save(os.path.abspath(base+"sex_labels.npy"),imgSex)
+        
         # determine
         nprs=NPAIRS(dataAry, imgSex, svcClassifier,splits)
         (pred,rep)=nprs.run()
@@ -167,4 +171,7 @@ class Classify(BaseInterface):
         _, base, _ = split_filename(self.inputs.path_file[0])
         outputs["pred"] = os.path.abspath(base+'prediction_accuracy.npy')
         outputs["rep"] = os.path.abspath(base+'reproducibility.npy')
+        outputs["imgs"] = os.path.abspath(base+'img_labels.npy')
+        outputs["splits"] = os.path.abspath(base+'splits.npy')
+        outputs["sexs"] = os.path.abspath(base+'sex_labels.npy')
         return outputs

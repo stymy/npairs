@@ -20,7 +20,7 @@ motiondir = '/home2/data/Projects/ABIDE_Initiative/CPAC/Output_2013-11-22/pipeli
 
 motionfiles = glob.glob(os.path.join(motiondir+'/*/power_params/_scan_rest_1_rest/_threshold_0.2/*'))
 
-subjects =  list(np.load('/data/Projects/ABIDE_Initiative/CPAC/abide/for_grant/abideSubjects_HC_12-19_mFD2_reviZed.npy'))
+subjects =  list(np.load('/data/Projects/ABIDE_Initiative/CPAC/abide/for_grant/zarrar_abide_sublist.npy'))
 
 phenotyped_subs = set()
 motiontyped_subs = set()
