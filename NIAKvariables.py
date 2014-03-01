@@ -24,6 +24,5 @@ outputdir = '/data/Projects/ABIDE_Initiative/CPAC/abide/for_grant/SVC_output_nia
 
 subjects =  list(np.load('/data/Projects/ABIDE_Initiative/CPAC/abide/for_grant/abideSubjects_HC_12-19_mFD2_reviZed.npy'))
 scans = ['1']
-pipelines = pipelines = ['pipeline_RameyBorough','pipeline_MerrittIsland']
 #ABIDE
 preprocs = ['pipeline_filt_global','pipeline_filt_noglobal','pipeline_nofilt_global','pipeline_nofilt_noglobal']

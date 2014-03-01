@@ -17,7 +17,7 @@ from text_out import Text_out
 from classify import Classify
 import numpy as np
 
-from NIAKvariables import workingdir, datadir, outputdir, subjects, scans, preprocs, pipelines, dg_template, dg_args
+from NIAKvariables import workingdir, datadir, outputdir, subjects, scans, preprocs, dg_template, dg_args
 
 def get_wf():
     wf = pe.Workflow(name="svc_workflow")
@@ -33,12 +33,9 @@ def get_wf():
 
     preproc_id_infosource = pe.Node(util.IdentityInterface(fields=['preproc_id']), name="preproc_id_infosource")
     preproc_id_infosource.iterables = ('preproc_id', preprocs)
-    
-    pipeline_id_infosource = pe.Node(util.IdentityInterface(fields=['pipeline_id']),name='pipeline_id_infosource')
-    pipeline_id_infosource.iterables = ('pipeline_id', pipelines)
 
     #DATAGRABBER
-    datagrabber = pe.Node(nio.DataGrabber(infields=['subject_id', 'scan_id','preproc_id','pipeline_id'], outfields=['falff_files','dr_files','reho_files']), name='datagrabber')
+    datagrabber = pe.Node(nio.DataGrabber(infields=['subject_id', 'scan_id','preproc_id'], outfields=['falff_files','dr_files','reho_files']), name='datagrabber')
     datagrabber.inputs.base_directory = '/'
     datagrabber.inputs.template = '*'
     datagrabber.inputs.field_template = dg_template
@@ -48,7 +45,6 @@ def get_wf():
     wf.connect(subject_id_infosource, 'subject_id', datagrabber, 'subject_id')
     wf.connect(scan_id_infosource, 'scan_id', datagrabber, 'scan_id')
     wf.connect(preproc_id_infosource, 'preproc_id', datagrabber, 'preproc_id')
-    wf.connect(pipeline_id_infosource, 'pipeline_id', datagrabber, 'pipeline_id')
     
     #OUTPUT PATHS & LABELS
     toText = pe.JoinNode(Text_out(), joinsource='subject_id_infosource', joinfield="in_file", name="falff_text_files")
