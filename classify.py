@@ -150,6 +150,7 @@ class Classify(BaseInterface):
         _, base, _ = split_filename(self.inputs.path_file[0])
         np.save(os.path.abspath(base+"img_labels.npy"),imgLabels)
         np.save(os.path.abspath(base+"splits.npy"),splits)
+        np.save(os.path.abspath(base+"sex_labels.npy"),imgSex)
         # determine
         nprs=NPAIRS(dataAry, imgSex, svcClassifier,splits)
         (pred,rep)=nprs.run()
