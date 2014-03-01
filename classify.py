@@ -111,6 +111,7 @@ class Classify(BaseInterface):
         imgNames = [paths[i] for i, y in enumerate(labels) if self.health(y,dx)]
         imgLabels = [y[sex]+self.hand(y,H)+y[site] for y in labels if self.health(y,dx)]
 
+        imgSex = [y[sex]+self.hand(y,H)+y[site] for y in labels if self.health(y,dx)]
         imgAges = [float(y[age]) for y in labels if self.health(y,dx)]
         imgFD = [float(y[meanFD]) for y in labels if self.health(y,dx)]
         continuous_var = [imgAges,imgFD]
@@ -150,13 +151,12 @@ class Classify(BaseInterface):
         np.save(os.path.abspath(base+"img_labels.npy"),imgLabels)
         np.save(os.path.abspath(base+"splits.npy"),splits)
         # determine
-        nprs=NPAIRS(dataAry, y[sex],svcClassifier,splits)
+        nprs=NPAIRS(dataAry, imgSex, svcClassifier,splits)
         (pred,rep)=nprs.run()
 
         np.save(os.path.abspath(base+"prediction_accuracy.npy"),pred)
         np.save(os.path.abspath(base+"reproducibility.npy"),rep)
 
-        
         return runtime
         
     def _list_outputs(self):
