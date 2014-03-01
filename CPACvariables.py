@@ -12,7 +12,7 @@ workingdir = '/data/Projects/ABIDE_Initiative/CPAC/abide/for_grant/SVC_workingdi
 datadir = '/home2/data/Projects/ABIDE_Initiative/CPAC/Output_2013-11-22/'
 
 dg_template = dict(dr_files= os.path.join(datadir,'%s/*%s*/dr_tempreg_maps_z_stack_to_standard/_scan_rest_%s_rest/*/*/*/%s/*/*/*.nii.gz'),
-                                            reho_files= os.path.join(datadir,'%s/*%s*/reho_Z_to_standard_smooth/_scan_rest_%s_rest/*/*/*/%s/*/*.nii.gz'),
+                                            reho_files= os.path.join(datadir,'%s/*%s*/reho_Z_to_standard_smooth/_scan_rest_%s_rest/*/*/*/%s/*/*/*.nii.gz'),
                                             falff_files=os.path.join(datadir,'%s/*%s*/falff_Z_to_standard_smooth/_scan_rest_%s_rest/*/*/*/%s/*/*/*/*.nii.gz'))
 
 dg_args = dict(falff_files= [['pipeline_id','subject_id', 'scan_id','preproc_id']],
