@@ -38,7 +38,7 @@ for i, phenofile in enumerate(phenofiles):
             #if phenofile == 'Leuven2_P1.5.csv':
                 #pheno_dict[row[0]].append('')
             pheno_dict[row[0]].insert(10,str(i))
-            pheno_dict[row[0]].instert(11,phenofile)
+            pheno_dict[row[0]].insert(11,phenofile)
 	    phenotyped_subs.add(str(row[0]))
 
 for motionfile in motionfiles:
