@@ -1,6 +1,7 @@
 from nipype.interfaces.base import BaseInterface, \
     BaseInterfaceInputSpec, traits, File, TraitedSpec, InputMultiPath
 import os
+import re
 
 class Text_outInputSpec(BaseInterfaceInputSpec):
     in_file = traits.List(desc="multiple files in joinNode")
@@ -16,7 +17,10 @@ class Text_out(BaseInterface):
     #PHENOTYPER
     def get_pheno(self, path):
         from variables import pheno_dict
-        subject_id = path.split('_session_1')[0].split('/')[-1] #find subject_id from path
+        subject_id_string = re.findall('\d{6,6}',path) #find subject_id (has to be 6 digits) from path
+        try: subject_id = int(subject_id_string[0])
+        except IndexError:
+            print 'subject id not found in %s'%(path)
         pheno_labels = pheno_dict.get(subject_id.lstrip("0")) #dict strips leading zeros
         return pheno_labels
     
