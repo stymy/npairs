@@ -25,8 +25,6 @@ outputdir = '/data/Projects/ABIDE_Initiative/CPAC/abide/for_grant/SVC_output_cpa
 subjects =  list(np.load('/data/Projects/ABIDE_Initiative/CPAC/abide/for_grant/abideSubjects_HC_12-19_mFD2_reviZed.npy'))
 scans = ['1']
 
-pipelines = ['',']
-
 #ABIDE
 preprocs = ['_compcor_ncomponents_5_selector_pc10.linear1.wm0.global0.motion1.quadratic1.gm0.compcor1.csf0',
 '_compcor_ncomponents_5_selector_pc10.linear1.wm0.global1.motion1.quadratic1.gm0.compcor1.csf0']

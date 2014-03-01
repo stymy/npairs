@@ -17,7 +17,7 @@ from text_out import Text_out
 from classify import Classify
 import numpy as np
 
-from NIAKvariables import workingdir, datadir, outputdir, subjects, scans, preprocs, dg_template, dg_args
+from CPACvariables2 import workingdir, datadir, outputdir, subjects, scans, preprocs, dg_template, dg_args
 
 def get_wf():
     wf = pe.Workflow(name="svc_workflow")
