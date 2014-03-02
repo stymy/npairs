@@ -18,9 +18,10 @@ class Text_out(BaseInterface):
     def get_pheno(self, path):
         from variables import pheno_dict
         subject_id_string = re.findall('\d{6,6}',path) #find subject_id (has to be 6 digits) from path
-        try: subject_id = str(subject_id_string[0])
+        try: int(subject_id_string[0])
         except IndexError:
             print 'subject id not found in %s'%(path)
+        subject_id = str(subject_id_string[0])
         pheno_labels = pheno_dict.get(subject_id.lstrip("0")) #dict strips leading zeros
         return pheno_labels
     
