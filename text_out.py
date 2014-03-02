@@ -28,7 +28,9 @@ class Text_out(BaseInterface):
     def _run_interface(self, runtime):
         for x in self.inputs.in_file:
             with open('paths', 'a+b') as f:
-                f.write(x+'\n')
+                try: f.write(x+'\n')
+                except TypeError:
+                    print x
             with open('labels', 'a+b') as g:
                 for y in self.get_pheno(x):
                     g.write(y+',')
