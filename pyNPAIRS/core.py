@@ -83,7 +83,7 @@ class NPAIRS(object):
         print "finished %d iterations of NPAIRS"%(cnt)
         print "we calculated prediction accuracy %3.2f and reproducibility %3.2f"%(pred.mean(),rep.mean())
 
-        return(pred,rep)
+        return(pred,rep,CLFcoefs)
     
     pass
 
