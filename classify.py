@@ -151,7 +151,7 @@ class Classify(BaseInterface):
 
         # create the classifier that we intend to use
         svcClassifier = svm.LinearSVC(C=100.0)
-        splits = self.splitHalf(imgLabels,10,continuous_var)
+        splits = self.splitHalf(imgLabels,100,continuous_var)
         
         _, base, _ = split_filename(self.inputs.path_file[0])
         
