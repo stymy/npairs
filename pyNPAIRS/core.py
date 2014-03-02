@@ -71,8 +71,8 @@ class NPAIRS(object):
             # now calculate the reproducibility
             rep[cnt] = np.corrcoef(leftCLF.coef_, rightCLF.coef_)[0,1]
             
-            CLFcoefs[cnt][0] = leftCLF.coef_
-            CLFcoefs[cnt][1] = rightCLF.coef_
+            CLFcoefs[cnt][0] = [leftCLF.coef_]
+            CLFcoefs[cnt][1] = [rightCLF.coef_]
             
             print "iter: %d, pred: %3.2f, rep: %3.2f"%(cnt,pred[cnt],rep[cnt])
                         
