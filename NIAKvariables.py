@@ -11,7 +11,7 @@ workingdir = '/data/Projects/ABIDE_Initiative/CPAC/abide/for_grant/SVC_workingdi
 #datadir = '/home/rschadmin/Data/'+dataset
 datadir = '/home2/data/Projects/ABIDE_Initiative/Derivatives/NIAK/Output'
 
-dg_template = dict(dr_files= os.path.join(datadir,'%s/*%s*_session_%s/dr_tempreg_maps_z_stack/*/*/_spatial_map_PNAS_Smith09_rsn10/*/*/*z_0003_resampled.nii.gz'),
+dg_template = dict(dr_files= os.path.join(datadir,'%s/*%s*_session_%s/dr_tempreg_maps_z_files/*/*/_spatial_map_PNAS_Smith09_rsn10/*/*/*z_0003_resampled.nii.gz'),
                                             reho_files= os.path.join(datadir,'%s/*%s*_session_%s/reho_Z_img/*/*/*_resampled.nii.gz'),
                                             falff_files=os.path.join(datadir,'%s/*%s*_session_%s/falff_Z_img/*/*/*hp*/*lp*/*_resampled.nii.gz'))
 
