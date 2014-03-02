@@ -19,6 +19,7 @@ class ClassifyOutputSpec(TraitedSpec):
     imgs = traits.File(desc="img labels")
     splits = traits.File(desc="splits")
     sexs = traits.File(desc="sex labels")
+    coefs = traits.File(desc='CLF coeffs')
 
 class Classify(BaseInterface):
     input_spec = ClassifyInputSpec
