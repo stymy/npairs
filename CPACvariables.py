@@ -11,7 +11,7 @@ workingdir = '/data/Projects/ABIDE_Initiative/CPAC/abide/for_grant/SVC_workingdi
 #datadir = '/home/rschadmin/Data/'+dataset
 datadir = '/home2/data/Projects/ABIDE_Initiative/CPAC/Output_2013-11-22/pipeline_RameyBorough/'
 
-dg_template = dict(dr_files= os.path.join(datadir,'*%s*/dr_tempreg_maps_z_stack_to_standard/_scan_rest_%s_rest/*/*/*/%s/*/*/*.nii.gz'),
+dg_template = dict(dr_files= os.path.join(datadir,'*%s*/dr_tempreg_maps_z_files_smooth/_scan_rest_%s_rest/*/*/*/%s/*/temp_reg_map_z_0003_wimt_maths.nii.gz'),
                                             reho_files= os.path.join(datadir,'*%s*/reho_Z_to_standard_smooth/_scan_rest_%s_rest/*/*/*/%s/*/*/*.nii.gz'),
                                             falff_files=os.path.join(datadir,'*%s*/falff_Z_to_standard_smooth/_scan_rest_%s_rest/*/*/*/%s/*/*/*/*.nii.gz'))
 
