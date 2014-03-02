@@ -162,7 +162,8 @@ class Classify(BaseInterface):
         
         # determine
         nprs=NPAIRS(dataAry, imgSex, svcClassifier,splits)
-        (pred,rep,coefs)=nprs.run()
+        (pred,rep,leftcoefs,rightcoefs)=nprs.run()
+        coefs = [leftcoefs,rightcoefs]
 
         np.save(os.path.abspath(base+"prediction_accuracy.npy"),pred)
         np.save(os.path.abspath(base+"reproducibility.npy"),rep)

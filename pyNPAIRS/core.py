@@ -46,7 +46,8 @@ class NPAIRS(object):
         # initialize our output lists
         rep = np.zeros((self.splits.shape[0],1))
         pred = np.zeros((self.splits.shape[0],1))
-        CLFcoefs = np.zeros((self.splits.shape[0],2,1))
+        leftCLFcoefs = list()
+        rightCLFcoefs = list()
         
         # counter to help keep track of things
         cnt = 0
@@ -71,8 +72,8 @@ class NPAIRS(object):
             # now calculate the reproducibility
             rep[cnt] = np.corrcoef(leftCLF.coef_, rightCLF.coef_)[0,1]
             
-            CLFcoefs[cnt][0] = list(leftCLF.coef_)
-            CLFcoefs[cnt][1] = list(rightCLF.coef_)
+            leftCLFcoefs.append(list(leftCLF.coef_))
+            rightCLFcoefs.append(list(rightCLF.coef_))
             
             print "iter: %d, pred: %3.2f, rep: %3.2f"%(cnt,pred[cnt],rep[cnt])
                         
@@ -83,7 +84,7 @@ class NPAIRS(object):
         print "finished %d iterations of NPAIRS"%(cnt)
         print "we calculated prediction accuracy %3.2f and reproducibility %3.2f"%(pred.mean(),rep.mean())
 
-        return(pred,rep,CLFcoefs)
+        return(pred,rep,leftCLFcoefs,rightCLFcoefs)
     
     pass
 
