@@ -179,5 +179,5 @@ class Classify(BaseInterface):
         outputs["splits"] = os.path.abspath(base+'splits.npy')
         outputs["sexs"] = os.path.abspath(base+'sex_labels.npy')
         outputs["coefs"] = os.path.abspath(base+'coefs.npy')
-        outputs["datary"] = os.path.abspath(os.path.abspath(base+"data_array.npy")
+        outputs["datary"] = os.path.abspath(base+"data_array.npy")
         return outputs
