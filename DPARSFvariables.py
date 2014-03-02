@@ -25,4 +25,4 @@ outputdir = '/data/Projects/ABIDE_Initiative/CPAC/abide/for_grant/SVC_output_dpa
 subjects =  list(np.load('/data/Projects/ABIDE_Initiative/CPAC/abide/for_grant/abideSubjects_HC_12-19_mFD2_reviZed.npy'))
 scans = ['1']
 #ABIDE
-preprocs = ['filt_globalW','filt_noglobalW','nofilt_globalW','nofilt_noglobalW']
+preprocs = ['Results_filt_globalW','Results_filt_noglobalW','Results_nofilt_globalW','Results_nofilt_noglobalW']
