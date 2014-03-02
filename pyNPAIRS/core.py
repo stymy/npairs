@@ -56,12 +56,14 @@ class NPAIRS(object):
             
             # first we train on the left half 
             leftCLF = self.classMethod.fit(self.dataAry[split==1,:],self.dataLbls[split==1])
+            lcoef = leftCLF.coef_
             
             # next calculate the prediction accuracy on the right half
             leftPA = self.classMethod.score(self.dataAry[split==2,:],self.dataLbls[split==2])
             
             # Now swap the roles of the left and right halves and repeat
             rightCLF = self.classMethod.fit(self.dataAry[split==2,:],self.dataLbls[split==2])
+            rcoef = rightCLF.coef_
             
             # next calculate the prediction accuracy on the right half
             rightPA = self.classMethod.score(self.dataAry[split==1,:],self.dataLbls[split==1])
@@ -70,10 +72,10 @@ class NPAIRS(object):
             pred[cnt] = .5*(rightPA+leftPA)
             
             # now calculate the reproducibility
-            rep[cnt] = np.corrcoef(leftCLF.coef_, rightCLF.coef_)[0,1]
+            rep[cnt] = np.corrcoef(lcoef, rcoef)[0,1]
             
-            leftCLFcoefs.append(list(leftCLF.coef_))
-            rightCLFcoefs.append(list(rightCLF.coef_))
+            leftCLFcoefs.append(list(lcoef))
+            rightCLFcoefs.append(list(rcoef))
             
             print "iter: %d, pred: %3.2f, rep: %3.2f"%(cnt,pred[cnt],rep[cnt])
                         
