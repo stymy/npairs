@@ -75,10 +75,21 @@ def get_wf():
     
     wf.connect(classifier, 'pred', ds, 'prediction_accuracy_falff')
     wf.connect(classifier, 'rep', ds, 'reproducibility_falff')
+    wf.connect(classifier, 'imgs', ds, "img_labels_falff")
+    wf.connect(classifier, 'splits', ds, "splits_falff")
+    wf.connect(classifier, 'sexs', ds, "sex_labels_falff")
+    
     wf.connect(classifier2, 'pred', ds, 'prediction_accuracy_reho')
     wf.connect(classifier2, 'rep', ds, 'reproducibility_reho')
+    wf.connect(classifier2, 'imgs', ds, "img_labels_reho")
+    wf.connect(classifier2, 'splits', ds, "splits_reho")
+    wf.connect(classifier2, 'sexs', ds, "sex_labels_reho")
+    
     wf.connect(classifier3, 'pred', ds, 'prediction_accuracy_dr')
     wf.connect(classifier3, 'rep', ds, 'reproducibility_dr')   
+    wf.connect(classifier3, 'imgs', ds, "img_labels_dr")
+    wf.connect(classifier3, 'splits', ds, "splits_dr")
+    wf.connect(classifier3, 'sexs', ds, "sex_labels_dr")
     
     wf.config['execution'] = {
                                'plugin': 'Linear',
