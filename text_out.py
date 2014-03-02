@@ -17,7 +17,7 @@ class Text_out(BaseInterface):
     #PHENOTYPER
     def get_pheno(self, path):
         from variables import pheno_dict
-        subject_id_string = re.findall('\d{6,6}',path) #find subject_id (has to be 6 digits) from path
+        subject_id_string = re.findall('\d{7,7}',path) #find subject_id (has to be 7 digits) from path
         try: int(subject_id_string[0])
         except IndexError:
             print 'subject id not found in %s'%(path)
