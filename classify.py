@@ -53,7 +53,8 @@ class Classify(BaseInterface):
         while c < cnt:
             tests=0
             tmp_splits = np.ones_like(splits[c])
-            ulbls = np.unique([m[-2:] for m in lbls]) #unique labels without gender           
+            ulbls = np.unique([m[-2:] for m in lbls]) #unique labels without gender
+            eqlbls = [m[-2:] for m in lbls]
             for lbl in ulbls:
                 #separate male and female so we can equalize gender btwn splits
                 #lbls_Fem = [n[-2:] for n in lbls if n.startswith('2')]               
@@ -71,7 +72,7 @@ class Classify(BaseInterface):
                 #    lNdex_Fem = np.random.choice(lNdx_Fem,size=len(lNdx_Mal),replace=False)
                 # determine half of the number of the labels
                 #numL2 = int(round(len(lNdx_Fem)/2.0))
-                numL2 = int(round(lbls.count(lbl)/2.0))
+                numL2 = int(round(eqlbls.count(lbl)/2.0))
                 #import pdb; pdb.set_trace()
                 
                 lHalf = np.random.choice(lNdx,size=numL2,replace=False)
