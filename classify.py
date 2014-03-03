@@ -82,8 +82,8 @@ class Classify(BaseInterface):
                 
                     tmp_splits[lHalf_Fem]=2
                     tmp_splits[lHalf_Mal]=2
-                else:
-                    continue
+                #else:
+                    #continue
                 # calculate ttest for each of the continuous varaibles you would like to control for
                 for clbl in contlbls:
                     a = np.array(clbl)[tmp_splits==1]
