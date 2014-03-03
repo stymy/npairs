@@ -33,7 +33,10 @@ class Classify(BaseInterface):
     def hand(self,label,H):
         try: handed = str(int(round(float(label[H]))))
         except ValueError:
-            handed = label[H]
+            if label[H] == 'R':
+                handed = 1
+            if label[R] == 'L':
+                handed = 2
         return handed
 
     # create stratified and controlled splits
@@ -46,17 +49,26 @@ class Classify(BaseInterface):
         c = 0
         while c < cnt:
             tests=0
-            tmp_splits = np.ones_like(splits[c])             
-            for lbl in np.unique(lbls):
-            
+            tmp_splits = np.ones_like(splits[c])
+            ulbls = np.unique([m[-2:] for m in lbls]) #unique labels without gender           
+            for lbl in ulbls:
+                #separate male and female so we can equalize gender btwn splits
+                lbls_Fem = [n[-2:] for n in lbls if n.startswith('2')]               
+                lbls_Mal = [n[-2:] for n in lbls if n.startswith('1')]
+                
                 # get the indices of the label
-                lNdx = [i for i,x in enumerate(lbls) if x == lbl]
+                #lNdx_Fem = [i for i,x in enumerate(lbls_Fem) if x.endswith(lbl)]
+                #lNdx_Mal = [i for i,x in enumerate(lbls_Mal) if x == lbl]
             
                 # determine half of the number of the labels
                 numL2 = int(round(lbls.count(lbl)/2.0))
                 #import pdb; pdb.set_trace()
-            
+                
                 lHalf = np.random.choice(lNdx,size=numL2,replace=False)
+                
+                #lHalf_Fem = np.random.choice(lNdx,size=numL2/2,replace=False)
+                #lHalf_Mal = np.random.choice(lNdx,size=numL2/2,replace=False)
+                
                 tmp_splits[lHalf]=2
             # calculate ttest for each of the continuous varaibles you would like to control for
             for clbl in contlbls:
@@ -120,6 +132,10 @@ class Classify(BaseInterface):
         imgAges = [float(y[age]) for y in labels if self.health(y,dx)]
         imgFD = [float(y[meanFD]) for y in labels if self.health(y,dx)]
         continuous_var = [imgAges,imgFD]
+        
+        #discard erroneous labels
+        imgLabels = [n for n in imgLabels if len(n)==3]
+        
         ## from craddock pyNPAIRS
         # create variables for the basic information
         maskName = '/data/Projects/ABIDE_Initiative/CPAC/abide/for_grant/rois/mask_100percent.nii.gz'
