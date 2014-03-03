@@ -140,7 +140,7 @@ class Classify(BaseInterface):
         
         #imgSex = [y[sex] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1]
           
-        imgNames = [paths[i] for i, y in enumerate(labels) if self.health(y,dx) and len(self.hand(y,H))==1)]
+        imgNames = [paths[i] for i, y in enumerate(labels) if self.health(y,dx) and len(self.hand(y,H))==1]
         
         imgLabels = [y[sex]+self.hand(y,H)+y[site] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1]
 
