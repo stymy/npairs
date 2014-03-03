@@ -74,28 +74,24 @@ class Classify(BaseInterface):
                 #    lNdex_Fem = np.random.choice(lNdx_Fem,size=len(lNdx_Mal),replace=False)
                 # determine half of the number of the labels
                 #numL2 = int(round(len(lNdx_Fem)/2.0))
-                numL2 = int(round(eqlbls.count(lbl)/2.0/2.0)) # a quarter of samples
+                #num = int(round(eqlbls.count(lbl)/2.0/2.0)) # a quarter of samples
                 #import pdb; pdb.set_trace()
                 
                 # for cases where labels are not equal across genders
-                if numL2 > len(Males) or numL2 >len(Females): 
-                    if len(Males) < len(Females):
-                        numL2 = len(Males)
-                    else:
-                        numL2 = len(Females)
-                        
-                if numL2==0:
-                    tmp_splits[lNdx] = np.random.randint(1,3)
+                #if len(Males) < len(Females):
+                num_M = int(np.floor(len(Males)/2.0))
+                num_F = int(np.floor(len(Females)/2.0))
+                
+                #split randomly        
+                tmp_splits[lNdx] = np.random.randint(1,3)
                         
                 #check if choice array is empty
-                if not list(Males)==[] and not list(Females)==[]: 
-                    lHalf_F = np.random.choice(Females,size=numL2,replace=False)
-                    lHalf_M = np.random.choice(Males,size=numL2,replace=False)
+                if not Females==[]:
+                    lHalf_F = np.random.choice(Females,size=num_F,replace=False)
                     tmp_splits[lHalf_F]=2
-                    tmp_splits[lHalf_M]=2
-                else:
-                    tmp_splits[lNdx] = np.random.randint(1,3)
-                                    
+                if not Males==[]:
+                    lHalf_M = np.random.choice(Males,size=num_M,replace=False)
+                    tmp_splits[lHalf_M]=2      
 
                 #if there are no females in this category, put male in random split.
 
@@ -206,7 +202,7 @@ class Classify(BaseInterface):
         print "Read %d images into %s image array"%(imgCnt,str(np.shape(dataAry)))
 
         # create the classifier that we intend to use
-        svcClassifier = svm.LinearSVC(C=0.001)
+        svcClassifier = svm.LinearSVC(C=0.000000001)
         
         _, base, _ = split_filename(self.inputs.path_file[0])
         
