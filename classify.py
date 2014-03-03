@@ -140,25 +140,15 @@ class Classify(BaseInterface):
         
         #imgSex = [y[sex] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1]
           
-        imgNames_F = [paths[i] for i, y in enumerate(labels) if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '2']
-        imgNames_M = [paths[i] for i, y in enumerate(labels) if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '1']
-        imgNames = imgNames_F+imgNames_M[:len(imgNames_F)]
+        imgNames = [paths[i] for i, y in enumerate(labels) if self.health(y,dx) and len(self.hand(y,H))==1)]
         
-        imgLabels_F = [y[sex]+self.hand(y,H)+y[site] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '2']
-        imgLabels_M = [y[sex]+self.hand(y,H)+y[site] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '1']
-        imgLabels = imgLabels_F+imgLabels_M[:len(imgLabels_F)]
+        imgLabels = [y[sex]+self.hand(y,H)+y[site] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1]
 
-        imgSex_F = [y[sex] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '2']
-        imgSex_M = [y[sex] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '1']
-        imgSex = imgSex_F+imgSex_M[:len(imgSex_F)]
+        imgSex = [y[sex] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1]
         
-        imgAges_F = [float(y[age]) for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '2']
-        imgAges_M = [float(y[age]) for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '1']
-        imgAges = imgAges_F+imgAges_M[:len(imgAges_F)]
+        imgAges = [float(y[age]) for y in labels if self.health(y,dx) and len(self.hand(y,H))==1]
         
-        imgFD_F = [float(y[meanFD]) for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '2']
-        imgFD_M = [float(y[meanFD]) for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '1']
-        imgFD = imgFD_F+imgFD_M[:len(imgFD_F)]
+        imgFD = [float(y[meanFD]) for y in labels if self.health(y,dx) and len(self.hand(y,H))==1]
         
         continuous_var = [imgAges,imgFD]
         
