@@ -64,7 +64,7 @@ class Classify(BaseInterface):
                 # get the indices of the label
                 #lNdx_Fem = [i for i,x in enumerate(lbls_Fem) if x.endswith(lbl)]
                 #lNdx_Mal = [i for i,x in enumerate(lbls_Mal) if x.endswith(lbl)]
-                lNdx = [i for i,x in enumerate(eqlbls) if x==lbl]
+                lNdx = [i for i,x in enumerate(lbls) if x[1:]==lbl]
                 Males = [m for m in lNdx if lbls[m].startswith('1')]
                 Females = [f for f in lNdx if lbls[f].startswith('2')]
                 #find smaller sample
@@ -85,13 +85,17 @@ class Classify(BaseInterface):
                 #split randomly        
                 tmp_splits[lNdx] = np.random.randint(1,3)
                         
-                #check if choice array is empty
+                #check if choice array is empty, then arrange labels
                 if not Females==[]:
                     lHalf_F = np.random.choice(Females,size=num_F,replace=False)
                     tmp_splits[lHalf_F]=2
+                    rHalf_F = np.array(list(set(Females)-set(lHalf_F)))
+                    tmp_splits[rHalf_F]=1
                 if not Males==[]:
                     lHalf_M = np.random.choice(Males,size=num_M,replace=False)
-                    tmp_splits[lHalf_M]=2      
+                    tmp_splits[lHalf_M]=2 
+                    rHalf_M = np.array(list(set(Males)-set(lHalf_M)))
+                    tmp_splits[rHalf_M]=1
 
                 #if there are no females in this category, put male in random split.
 
@@ -202,7 +206,7 @@ class Classify(BaseInterface):
         print "Read %d images into %s image array"%(imgCnt,str(np.shape(dataAry)))
 
         # create the classifier that we intend to use
-        svcClassifier = svm.LinearSVC(C=0.000000001)
+        svcClassifier = svm.LinearSVC(C=0.000000001,class_weight='auto')
         
         _, base, _ = split_filename(self.inputs.path_file[0])
         
