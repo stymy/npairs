@@ -36,9 +36,10 @@ class Classify(BaseInterface):
             handed = str(1)
         if label[H] == 'L':
             handed = str(2)
-        try: handed = str(int(round(float(label[H]))))
-        except ValueError:
-            print handed
+        if handed == '':
+            try: handed = str(int(round(float(label[H]))))
+            except ValueError:
+                print handed
         return handed
 
     # create stratified and controlled splits
@@ -137,7 +138,7 @@ class Classify(BaseInterface):
         continuous_var = [imgAges,imgFD]
         
         #discard erroneous labels
-        imgLabels = [n for n in imgLabels if len(n)==3]
+        imgLabels = [n for n in imgLabels if len(n)>3]
         
         ## from craddock pyNPAIRS
         # create variables for the basic information
