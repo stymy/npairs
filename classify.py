@@ -37,6 +37,8 @@ class Classify(BaseInterface):
                 handed = str(1)
             if label[H] == 'L':
                 handed = str(2)
+            else:
+                handed = 'unown/ambi'
         return handed
 
     # create stratified and controlled splits
