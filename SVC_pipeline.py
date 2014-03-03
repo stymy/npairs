@@ -23,7 +23,7 @@ from NIAKvariables import workingdir, datadir, outputdir, scans, preprocs, dg_te
 
 def get_wf():
     wf = pe.Workflow(name="svc_workflow")
-    wf.base_dir = os.path.join(workingdir,"npairs_3deriv")
+    wf.base_dir = os.path.join(workingdir,"npairs_C_1e-9")
     wf.config['execution']['crashdump_dir'] = wf.base_dir + "/crash_files"
 
     #INFOSOURCE ITERABLES
