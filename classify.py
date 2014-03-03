@@ -35,7 +35,7 @@ class Classify(BaseInterface):
         except ValueError:
             if label[H] == 'R':
                 handed = str(1)
-            if label[R] == 'L':
+            if label[H] == 'L':
                 handed = str(2)
         return handed
 
