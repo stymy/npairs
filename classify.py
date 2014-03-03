@@ -53,8 +53,9 @@ class Classify(BaseInterface):
         while c < cnt:
             tests=0
             tmp_splits = np.ones_like(splits[c])
-            ulbls = np.unique([m[-2:] for m in lbls]) #unique labels without gender
-            eqlbls = [m[-2:] for m in lbls]
+            eqlbls = [m[1:] for m in lbls] #labels without gender
+            ulbls = np.unique(eqlbls) #unique labels without gender
+            
             for lbl in ulbls:
                 #separate male and female so we can equalize gender btwn splits
                 #lbls_Fem = [n[-2:] for n in lbls if n.startswith('2')]               
@@ -63,8 +64,9 @@ class Classify(BaseInterface):
                 # get the indices of the label
                 #lNdx_Fem = [i for i,x in enumerate(lbls_Fem) if x.endswith(lbl)]
                 #lNdx_Mal = [i for i,x in enumerate(lbls_Mal) if x.endswith(lbl)]
-                lNdx = [i for i,x in enumerate(lbls) if x.endswith(lbl)]
-                
+                lNdx = [i for i,x in enumerate(eqlbls) if x==lbl]
+                Males = [m for m in lNdx if lbls[m].startswith('1')]
+                Females = [f for f in lNdx if lbls[f].startswith('2')]
                 #find smaller sample
                 #if len(lNdx_Fem)<len(lNdx_Mal):
                 #    lNdx_Mal = np.random.choice(lNdx_Mal,size=len(lNdx_Fem),replace=False)
@@ -72,12 +74,22 @@ class Classify(BaseInterface):
                 #    lNdex_Fem = np.random.choice(lNdx_Fem,size=len(lNdx_Mal),replace=False)
                 # determine half of the number of the labels
                 #numL2 = int(round(len(lNdx_Fem)/2.0))
-                numL2 = int(round(eqlbls.count(lbl)/2.0))
+                numL2 = int(round(eqlbls.count(lbl)/2.0/2.0)) # a quarter of samples
                 #import pdb; pdb.set_trace()
                 
-                lHalf = np.random.choice(lNdx,size=numL2,replace=False)
-                tmp_splits[lHalf]=2
-                #if not list(lNdx_Fem)==[] and not list(lNdx_Mal)==[]: #check if no indices are lbl
+                # for cases where labels are not equal across genders
+                if numL2 > len(Males) or numL2 >len(Females): 
+                    if len(Males) < len(Females):
+                        numL2 = len(Males)
+                    else:
+                        numL2 = len(Females)
+                        
+                #check if choice array is empty
+                if not list(Males)==[] and not list(Females)==[]: 
+                    lHalf_F = np.random.choice(Females,size=numL2,replace=False)
+                    lHalf_M = np.random.choice(Males,size=numL2,replace=False)
+                    tmp_splits[lHalf_F]=2
+                    tmp_splits[lHalf_M]=2
                  #   lHalf_Fem = np.random.choice(lNdx_Fem,size=numL2/2,replace=False)
                   #  lHalf_Mal = np.random.choice(lNdx_Mal,size=numL2/2,replace=False)
                 
