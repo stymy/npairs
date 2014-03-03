@@ -53,9 +53,6 @@ class NPAIRS(object):
         cnt = 0
         # iterate over the splits, calculating the NPAIRs metrics
         for split in self.splits:
-            try: self.classMethod.fit(self.dataAry[split==1,:],self.dataLbls[split==1])
-            except ValueError:
-                continue
             # first we train on the left half 
             leftCLF = self.classMethod.fit(self.dataAry[split==1,:],self.dataLbls[split==1])
             lcoef = leftCLF.coef_
