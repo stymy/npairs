@@ -32,16 +32,14 @@ class Classify(BaseInterface):
 
     def hand(self,label,H):
         handed = label[H]
-        try: str(int(round(float(label[H]))))
+        if label[H] == 'R':
+            handed = str(1)
+        if label[H] == 'L':
+            handed = str(2)
+        try: handed = str(int(round(float(label[H]))))
         except ValueError:
-            if label[H] == 'R':
-                handed = 1
-            if label[H] == 'L':
-                handed = 2
-            else:
-                handed = 9999999
-        handedness = str(int(round(float(handed))))
-        return handedness
+            print handed
+        return handed
 
     # create stratified and controlled splits
     def splitHalf(self,lbls,cnt,contlbls):
