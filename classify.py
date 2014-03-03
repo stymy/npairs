@@ -142,20 +142,23 @@ class Classify(BaseInterface):
           
         imgNames_F = [paths[i] for i, y in enumerate(labels) if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '2']
         imgNames_M = [paths[i] for i, y in enumerate(labels) if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '1']
-        imgNames = imgNames_F+list(np.random.choice(imgNames_M,size=len(imgNames_F),replace=False))
+        imgNames = imgNames_F+imgNames_M[:len(imgNames_F)]
         
         imgLabels_F = [y[sex]+self.hand(y,H)+y[site] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '2']
         imgLabels_M = [y[sex]+self.hand(y,H)+y[site] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '1']
-        imgLabels = imgLabels_F+list(np.random.choice(imgLabels_M,size=len(imgLabels_F),replace=False))
+        imgLabels = imgLabels_F+imgLabels_M[:len(imgLabels_F)]
 
+        imgSex_F = [y[sex] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '2']
+        imgSex_M = [y[sex]) for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '1']
+        imgSex = imgSex_F+imgSex_M[:len(imgSex_F)]
         
         imgAges_F = [float(y[age]) for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '2']
         imgAges_M = [float(y[age]) for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '1']
-        imgAges = imgAges_F+list(np.random.choice(imgAges_M,size=len(imgAges_F),replace=False))
+        imgAges = imgAges_F+imgAges_M[:len(imgAges_F)]
         
         imgFD_F = [float(y[meanFD]) for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '2']
         imgFD_M = [float(y[meanFD]) for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '1']
-        imgFD = imgFD_F+list(np.random.choice(imgFD_M,size=len(imgFD_F),replace=False))
+        imgFD = imgFD_F+imgFD_M[:len(imgFD_F)]
         
         continuous_var = [imgAges,imgFD]
         
