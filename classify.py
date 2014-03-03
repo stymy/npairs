@@ -37,7 +37,7 @@ class Classify(BaseInterface):
         if label[H] == 'L':
             handed = str(2)
         if handed == '':
-            try: handed = str(int(round(float(label[H]))))
+            try: handed = str(int(round(float(label[H+1]))))
             except ValueError:
                 print handed
         return handed
