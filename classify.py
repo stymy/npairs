@@ -34,9 +34,9 @@ class Classify(BaseInterface):
         try: handed = str(int(round(float(label[H]))))
         except ValueError:
             if label[H] == 'R':
-                handed = 1
+                handed = str(1)
             if label[R] == 'L':
-                handed = 2
+                handed = str(2)
         return handed
 
     # create stratified and controlled splits
