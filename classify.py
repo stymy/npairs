@@ -149,7 +149,7 @@ class Classify(BaseInterface):
         imgLabels = imgLabels_F+imgLabels_M[:len(imgLabels_F)]
 
         imgSex_F = [y[sex] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '2']
-        imgSex_M = [y[sex]) for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '1']
+        imgSex_M = [y[sex] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '1']
         imgSex = imgSex_F+imgSex_M[:len(imgSex_F)]
         
         imgAges_F = [float(y[age]) for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '2']
