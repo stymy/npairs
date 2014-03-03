@@ -44,7 +44,7 @@ class Classify(BaseInterface):
 
     # create stratified and controlled splits
     def splitHalf(self,lbls,cnt,contlbls):
-        
+
         # first we initialize our split 
         splits=np.ones((cnt,len(lbls)))
 
@@ -54,26 +54,32 @@ class Classify(BaseInterface):
             tests=0
             tmp_splits = np.ones_like(splits[c])
             ulbls = np.unique([m[-2:] for m in lbls]) #unique labels without gender           
-            for lbl in ulbls:
-                #separate male and female so we can equalize gender btwn splits
-                lbls_Fem = [n[-2:] for n in lbls if n.startswith('2')]               
-                lbls_Mal = [n[-2:] for n in lbls if n.startswith('1')]
-                
-                # get the indices of the label
-                #lNdx_Fem = [i for i,x in enumerate(lbls_Fem) if x.endswith(lbl)]
-                #lNdx_Mal = [i for i,x in enumerate(lbls_Mal) if x == lbl]
-                lNdx = [i for i,x in enumerate(lbls) if x.endswith(lbl)]
-                
-                # determine half of the number of the labels
-                numL2 = int(round(lbls.count(lbl)/2.0))
-                #import pdb; pdb.set_trace()
-                
-                lHalf = np.random.choice(lNdx,size=numL2,replace=False)
-                
-                #lHalf_Fem = np.random.choice(lNdx,size=numL2/2,replace=False)
-                #lHalf_Mal = np.random.choice(lNdx,size=numL2/2,replace=False)
-                
-                tmp_splits[lHalf]=2
+        for lbl in ulbls:
+            #separate male and female so we can equalize gender btwn splits
+            lbls_Fem = [n[-2:] for n in lbls if n.startswith('2')]               
+            lbls_Mal = [n[-2:] for n in lbls if n.startswith('1')]
+            
+            # get the indices of the label
+            lNdx_Fem = [i for i,x in enumerate(lbls_Fem) if x.endswith(lbl)]
+            lNdx_Mal = [i for i,x in enumerate(lbls_Mal) if x.endswith(lbl)]
+            #lNdx = [i for i,x in enumerate(lbls) if x.endswith(lbl)]
+            
+            #find smaller sample
+            if len(lNdx_Fem)<len(lNdx_Mal):
+                lNdx_Mal = np.random.choice(lNdx_Mal,size=len(lNdx_Fem),replace=False)
+            if len(lNdx_Fem)>len(lNdx_Mal):
+                lNdex_Fem = np.random.choice(lNdx_Fem,size=len(lNdx_Mal,replace=False))
+            # determine half of the number of the labels
+            numL2 = int(round(len(lNdx_Fem)/2.0))
+            #import pdb; pdb.set_trace()
+            
+            #lHalf = np.random.choice(lNdx,size=numL2,replace=False)
+            
+            lHalf_Fem = np.random.choice(lNdx_Fem,size=numL2/2,replace=False)
+            lHalf_Mal = np.random.choice(lNdx_Mal,size=numL2/2,replace=False)
+            
+            tmp_splits[lHalf_Fem]=2
+            tmp_splits[lHalf_Mal]=2
             # calculate ttest for each of the continuous varaibles you would like to control for
             for clbl in contlbls:
                 a = np.array(clbl)[tmp_splits==1]
