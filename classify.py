@@ -197,7 +197,7 @@ class Classify(BaseInterface):
         _, base, _ = split_filename(self.inputs.path_file[0])
         
         np.save(os.path.abspath(base+"img_labels.npy"),imgLabels)
-        #np.save(os.path.abspath(base+"sex_labels.npy"),imgSex)
+        np.save(os.path.abspath(base+"sex_labels.npy"),imgSex)
         np.save(os.path.abspath(base+"data_array.npy"),dataAry)
         
         splits, ulbls = self.splitHalf(imgLabels,100,continuous_var)
