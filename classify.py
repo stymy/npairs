@@ -61,7 +61,8 @@ class Classify(BaseInterface):
                 # get the indices of the label
                 #lNdx_Fem = [i for i,x in enumerate(lbls_Fem) if x.endswith(lbl)]
                 #lNdx_Mal = [i for i,x in enumerate(lbls_Mal) if x == lbl]
-            
+                lNdx = [i for i,x in enumerate(lbls) if x.endswith(lbl)]
+                
                 # determine half of the number of the labels
                 numL2 = int(round(lbls.count(lbl)/2.0))
                 #import pdb; pdb.set_trace()
