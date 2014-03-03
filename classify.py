@@ -36,8 +36,8 @@ class Classify(BaseInterface):
             handed = str(1)
         if label[H] == 'L':
             handed = str(2)
-        if handed == '':
-            try: handed = str(int(round(float(label[H+1]))))
+        if label[H] == '':
+            try: handed = str(int(round(float(label[H+1])/100)))
             except ValueError:
                 print handed
         return handed
@@ -130,7 +130,7 @@ class Classify(BaseInterface):
         age = 3
             
         imgNames = [paths[i] for i, y in enumerate(labels) if self.health(y,dx)]
-        imgLabels = [y[sex]+self.hand(y,H)+y[site] for y in labels if self.health(y,dx)]
+        imgLabels = [y[sex]+self.hand(y,H)+y[site] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1]
 
         imgSex = [y[sex] for y in labels if self.health(y,dx)]
         imgAges = [float(y[age]) for y in labels if self.health(y,dx)]
