@@ -90,7 +90,9 @@ class Classify(BaseInterface):
                     lHalf_M = np.random.choice(Males,size=numL2,replace=False)
                     tmp_splits[lHalf_F]=2
                     tmp_splits[lHalf_M]=2
-                
+                                
+                if numL2==0:
+                    tmp_splits[lNdx] = np.random.randint(1,3)
                 #if there are no females in this category, put male in random split.
                 else:
                     tmp_splits[lNdx] = np.random.randint(1,3)
