@@ -161,10 +161,10 @@ class Classify(BaseInterface):
         
         imgSex = [y[sex] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1]
         
-        while counter < 
+        #while counter < 
                   
         imgNames = [paths[i] for i, y in enumerate(labels) if self.health(y,dx) and len(self.hand(y,H))==1]
-        imgNames = imgNames[np.where(imgSex=='1')][np.where(imgSex==
+        #imgNames = imgNames[np.where(imgSex=='1')][np.where(imgSex==
         
         imgLabels = [y[sex]+self.hand(y,H)+y[site] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1]
 
