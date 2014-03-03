@@ -141,7 +141,7 @@ class Classify(BaseInterface):
           
         imgNames_F = [paths[i] for i, y in enumerate(labels) if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '2']
         imgNames_M = [paths[i] for i, y in enumerate(labels) if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '1']
-        imgNames = imgFD_F+np.random.choice(imgNames_M,size=len(imgNames_F),replace=False)
+        imgNames = imgNames_F+np.random.choice(imgNames_M,size=len(imgNames_F),replace=False)
         
         imgLabels_F = [y[sex]+self.hand(y,H)+y[site] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '2']
         imgLabels_M = [y[sex]+self.hand(y,H)+y[site] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '1']
