@@ -30,16 +30,18 @@ class Classify(BaseInterface):
         boolean = not int(label[dx])==1
         return boolean
 
-    def hand(self,label,H):
-        try: handed = str(int(round(float(label[H]))))
-        except ValueError:
-            if label[H] == 'R':
-                handed = str(1)
-            if label[H] == 'L':
-                handed = str(2)
-            else:
-                handed = 'unown/ambi'
-        return handed
+def hand(label,H):
+    handed = label[H]
+    try: str(int(round(float(label[H]))))
+    except ValueError:
+        if label[H] == 'R':
+            handed = 1
+        if label[H] == 'L':
+            handed = 2
+        else:
+            handed = 9999999
+    handedness = str(int(round(float(handed))))
+    return handedness
 
     # create stratified and controlled splits
     def splitHalf(self,lbls,cnt,contlbls):
@@ -119,12 +121,12 @@ class Classify(BaseInterface):
         #pheno_dict.get('SubID')
         #['SubID','DxGroup', 'DSMIVTR', 'AgeAtScan', 'Sex', 'Handedness_Category', 'Handedness_Scores', 'FIQ', 'VIQ', 'PIQ', 'IQTest', 'VIQTest', 'PIQTest', ... ,'Age at MPRAGE', 'BMI']+['Site_#', 'Site_Name]
 
-        #discrete labels
+        #index of discrete labels
         sex = 4
         H = 5
         site = 10
         dx = 1
-        #continuous labels
+        #index fo continuous labels
         meanFD = 12
         age = 3
             
