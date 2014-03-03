@@ -68,7 +68,7 @@ class Classify(BaseInterface):
             if len(lNdx_Fem)<len(lNdx_Mal):
                 lNdx_Mal = np.random.choice(lNdx_Mal,size=len(lNdx_Fem),replace=False)
             if len(lNdx_Fem)>len(lNdx_Mal):
-                lNdex_Fem = np.random.choice(lNdx_Fem,size=len(lNdx_Mal,replace=False))
+                lNdex_Fem = np.random.choice(lNdx_Fem,size=len(lNdx_Mal),replace=False)
             # determine half of the number of the labels
             numL2 = int(round(len(lNdx_Fem)/2.0))
             #import pdb; pdb.set_trace()
