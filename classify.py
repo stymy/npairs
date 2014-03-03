@@ -92,7 +92,7 @@ class Classify(BaseInterface):
             else:
                 continue
 
-        return splits
+        return splits, ulbls
                 
     def _run_interface(self, runtime):
         labels=[]
@@ -129,16 +129,13 @@ class Classify(BaseInterface):
         meanFD = 12
         age = 3
             
-        imgNames = [paths[i] for i, y in enumerate(labels) if self.health(y,dx)]
+        imgNames = [paths[i] for i, y in enumerate(labels) if self.health(y,dx) and len(self.hand(y,H))==1]
         imgLabels = [y[sex]+self.hand(y,H)+y[site] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1]
 
-        imgSex = [y[sex] for y in labels if self.health(y,dx)]
-        imgAges = [float(y[age]) for y in labels if self.health(y,dx)]
-        imgFD = [float(y[meanFD]) for y in labels if self.health(y,dx)]
+        imgSex = [y[sex] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1]
+        imgAges = [float(y[age]) for y in labels if self.health(y,dx) and len(self.hand(y,H))==1]
+        imgFD = [float(y[meanFD]) for y in labels if self.health(y,dx) and len(self.hand(y,H))==1]
         continuous_var = [imgAges,imgFD]
-        
-        #discard erroneous labels
-        imgLabels = [n for n in imgLabels if len(n)>3]
         
         ## from craddock pyNPAIRS
         # create variables for the basic information
@@ -171,7 +168,7 @@ class Classify(BaseInterface):
 
         # create the classifier that we intend to use
         svcClassifier = svm.LinearSVC(C=0.000000001)
-        splits = self.splitHalf(imgLabels,100,continuous_var)
+        splits, ulbls = self.splitHalf(imgLabels,100,continuous_var)
         
         _, base, _ = split_filename(self.inputs.path_file[0])
         
