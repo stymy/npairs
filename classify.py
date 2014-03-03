@@ -56,9 +56,9 @@ class Classify(BaseInterface):
             ulbls = np.unique([m[-2:] for m in lbls]) #unique labels without gender           
             for lbl in ulbls:
                 #separate male and female so we can equalize gender btwn splits
-                lbls_Fem = [n[-2:] for n in lbls if n.startswith('2')]               
-                lbls_Mal = [n[-2:] for n in lbls if n.startswith('1')]
-                
+                #lbls_Fem = [n[-2:] for n in lbls if n.startswith('2')]               
+                #lbls_Mal = [n[-2:] for n in lbls if n.startswith('1')]
+                #alllbls = [i for i,x in enumerate(lbls) if x.endswith(lbl)]
                 # get the indices of the label
                 #lNdx_Fem = [i for i,x in enumerate(lbls_Fem) if x.endswith(lbl)]
                 #lNdx_Mal = [i for i,x in enumerate(lbls_Mal) if x.endswith(lbl)]
@@ -71,7 +71,7 @@ class Classify(BaseInterface):
                 #    lNdex_Fem = np.random.choice(lNdx_Fem,size=len(lNdx_Mal),replace=False)
                 # determine half of the number of the labels
                 #numL2 = int(round(len(lNdx_Fem)/2.0))
-                numL2 = int(round(len(lNdx)/2.0))
+                numL2 = int(round(lbls.count(lbl)/2.0))
                 #import pdb; pdb.set_trace()
                 
                 lHalf = np.random.choice(lNdx,size=numL2,replace=False)
@@ -136,13 +136,26 @@ class Classify(BaseInterface):
         #index fo continuous labels
         meanFD = 12
         age = 3
-            
-        imgNames = [paths[i] for i, y in enumerate(labels) if self.health(y,dx) and len(self.hand(y,H))==1]
-        imgLabels = [y[sex]+self.hand(y,H)+y[site] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1]
+        
+        #imgSex = [y[sex] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1]
+          
+        imgNames_F = [paths[i] for i, y in enumerate(labels) if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '2']
+        imgNames_M = [paths[i] for i, y in enumerate(labels) if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '1']
+        imgNames = imgFD_F+np.random.choice(imgNames_M),size=len(imgNames_F),replace=False)
+        
+        imgLabels_F = [y[sex]+self.hand(y,H)+y[site] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '2']
+        imgLabels_M = [y[sex]+self.hand(y,H)+y[site] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '1']
+        imgLabels = imgLabels_F+np.random.choice(imgLabels_M),size=len(imgLabels_F),replace=False)
 
-        imgSex = [y[sex] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1]
-        imgAges = [float(y[age]) for y in labels if self.health(y,dx) and len(self.hand(y,H))==1]
-        imgFD = [float(y[meanFD]) for y in labels if self.health(y,dx) and len(self.hand(y,H))==1]
+        
+        imgAges_F = [float(y[age]) for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '2']
+        imgAges_M = [float(y[age]) for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '1']
+        imgAges = imgAges_F+np.random.choice(imgAges_M),size=len(imgAges_F),replace=False)
+        
+        imgFD_F = [float(y[meanFD]) for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '2']
+        imgFD_M = [float(y[meanFD]) for y in labels if self.health(y,dx) and len(self.hand(y,H))==1 and y[sex] == '1']
+        imgFD = imgFD_F+np.random.choice(imgFD_M),size=len(imgFD_F),replace=False)
+        
         continuous_var = [imgAges,imgFD]
         
         ## from craddock pyNPAIRS
