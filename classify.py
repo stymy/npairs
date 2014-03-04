@@ -213,7 +213,7 @@ class Classify(BaseInterface):
         print "Read %d images into %s image array"%(imgCnt,str(np.shape(dataAry)))
 
         # create the classifier that we intend to use
-        svcClassifier = svm.LinearSVC(C=1,class_weight='auto')
+        svcClassifier = svm.LinearSVC(C=.00000000001,class_weight='auto')
         
         _, base, _ = split_filename(self.inputs.path_file[0])
         
