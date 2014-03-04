@@ -160,7 +160,7 @@ class Classify(BaseInterface):
         age = 3
         
         imgSex = [y[sex] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1]
-        imgVIQ = [int(y[8]>90) for y in labels if self.health(y,dx) and len(self.hand(y,H))==1]
+        imgVIQ = [int(float(y[8])>90) for y in labels if self.health(y,dx) and len(self.hand(y,H))==1]
         #while counter < 
                   
         imgNames = [paths[i] for i, y in enumerate(labels) if self.health(y,dx) and len(self.hand(y,H))==1]
