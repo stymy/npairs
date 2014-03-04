@@ -160,7 +160,7 @@ class Classify(BaseInterface):
         age = 3
         
         imgSex = [y[sex] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1]
-        
+        imgVIQ = [y[8] for y in labels if self.health(y,dx) and len(self.hand(y,H))==1]
         #while counter < 
                   
         imgNames = [paths[i] for i, y in enumerate(labels) if self.health(y,dx) and len(self.hand(y,H))==1]
@@ -218,7 +218,7 @@ class Classify(BaseInterface):
         
         np.save(os.path.abspath(base+"splits.npy"),splits)
         # determine
-        nprs=NPAIRS(dataAry, imgSex, svcClassifier,splits)
+        nprs=NPAIRS(dataAry, imgVIQ, svcClassifier,splits)
         (pred,rep,leftcoefs,rightcoefs)=nprs.run()
         coefs = [leftcoefs,rightcoefs]
 
