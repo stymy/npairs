@@ -167,7 +167,7 @@ class Classify(BaseInterface):
                 try:int(y[7])
                 except ValueError:
                     IQ = int(y[8])+int(y[9])
-                imgFIQ.append[int(int(IQ)>100)]    
+                imgFIQ.append(int(int(IQ)>100))    
         #while counter < 
                   
         imgNames = [paths[i] for i, y in enumerate(labels) if self.health(y,dx) and len(self.hand(y,H))==1]
