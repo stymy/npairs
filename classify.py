@@ -21,6 +21,7 @@ class ClassifyOutputSpec(TraitedSpec):
     sexs = traits.File(desc="sex labels")
     coefs = traits.File(desc='CLF coeffs')
     datary = traits.File(desc='data array for CLF')
+    contvar = trais.File(desc= 'continuous variables')
 
 class Classify(BaseInterface):
     input_spec = ClassifyInputSpec
@@ -226,7 +227,7 @@ class Classify(BaseInterface):
         
         np.save(os.path.abspath(base+"splits.npy"),splits)
         # determine
-        nprs=NPAIRS(dataAry, sexIQ, svcClassifier,splits)
+        nprs=NPAIRS(dataAry, imgSex, svcClassifier,splits)
         (pred,rep,leftcoefs,rightcoefs)=nprs.run()
         coefs = [leftcoefs,rightcoefs]
 

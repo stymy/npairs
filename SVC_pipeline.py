@@ -18,12 +18,12 @@ from classify import Classify
 import numpy as np
 
 
-from variables import subjects
-from NIAKvariables import workingdir, datadir, outputdir, scans, preprocs, dg_template, dg_args
+from variables import subjects, mask_file
+from CPACvariables import workingdir, datadir, outputdir, scans, preprocs, dg_template, dg_args
 
 def get_wf():
     wf = pe.Workflow(name="svc_workflow")
-    wf.base_dir = os.path.join(workingdir,"npairs_C_1e-9")
+    wf.base_dir = os.path.join(workingdir,"npairs_IQ_C1e-11")
     wf.config['execution']['crashdump_dir'] = wf.base_dir + "/crash_files"
 
     #INFOSOURCE ITERABLES
@@ -61,14 +61,17 @@ def get_wf():
     
     #RUN CLASSIFIERs
     classifier = pe.Node(Classify(), name='SVC_falff')
+    classifier.inputs.mask_file = mask_file
     wf.connect(toText, 'label_file', classifier, 'label_file')
     wf.connect(toText, 'data_paths', classifier, 'path_file')
     
     classifier2 = pe.Node(Classify(), name='SVC_reho')
+    classifier2.inputs.mask_file = mask_file
     wf.connect(toText2, 'label_file', classifier2, 'label_file')
     wf.connect(toText2, 'data_paths', classifier2, 'path_file') 
     
     classifier3 = pe.Node(Classify(), name='SVC_dr')
+    classifier3.inputs.mask_file = mask_file
     wf.connect(toText3, 'label_file', classifier3, 'label_file')
     wf.connect(toText3, 'data_paths', classifier3, 'path_file')
     #DATASINK
