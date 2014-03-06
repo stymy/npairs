@@ -83,7 +83,7 @@ class Classify(BaseInterface):
                 num_F = int(np.floor(len(Females)/2.0))
                 
                 #split randomly        
-                tmp_splits[lNdx] = np.random.randint(1,3)
+                tmp_splits[lNdx] = np.random.randint(1,high=3,size=10)
                         
                 #check if choice array is empty, then arrange labels
                 if not Females==[]:
@@ -185,7 +185,7 @@ class Classify(BaseInterface):
         
         ## from craddock pyNPAIRS
         # create variables for the basic information
-        maskName = '/data/Projects/ABIDE_Initiative/CPAC/abide/for_grant/rois/mask_100percent.nii.gz'
+        maskName = self.inputs.mask_file#'/data/Projects/ABIDE_Initiative/CPAC/abide/for_grant/rois/mask_100percent.nii.gz'
 
         # Read in the mask
         try:
@@ -218,14 +218,15 @@ class Classify(BaseInterface):
         _, base, _ = split_filename(self.inputs.path_file[0])
         
         np.save(os.path.abspath(base+"img_labels.npy"),imgLabels)
-        np.save(os.path.abspath(base+"sex_labels.npy"),imgFIQ)
+        np.save(os.path.abspath(base+"sex_labels.npy"),imgSex)
         np.save(os.path.abspath(base+"data_array.npy"),dataAry)
+        np.save(os.path.abspath(base+"cont_vars.npy"),continuous_var)
         
         splits, ulbls = self.splitHalf(imgLabels,100,continuous_var)
         
         np.save(os.path.abspath(base+"splits.npy"),splits)
         # determine
-        nprs=NPAIRS(dataAry, imgFIQ, svcClassifier,splits)
+        nprs=NPAIRS(dataAry, sexIQ, svcClassifier,splits)
         (pred,rep,leftcoefs,rightcoefs)=nprs.run()
         coefs = [leftcoefs,rightcoefs]
 
@@ -245,4 +246,5 @@ class Classify(BaseInterface):
         outputs["sexs"] = os.path.abspath(base+'sex_labels.npy')
         outputs["coefs"] = os.path.abspath(base+'coefs.npy')
         outputs["datary"] = os.path.abspath(base+"data_array.npy")
+        outputs["contvar"] = os.path.abspath(base+'cont_vars.npy')
         return outputs
