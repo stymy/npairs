@@ -180,7 +180,7 @@ class Classify(BaseInterface):
         imgAges = [float(y[age]) for y in labels if self.health(y,dx) and len(self.hand(y,H))==1]
         
         imgFD = [float(y[meanFD]) for y in labels if self.health(y,dx) and len(self.hand(y,H))==1]
-        
+        ### threshold for FD > 0.2
         continuous_var = [imgAges,imgFD]
         
         ## from craddock pyNPAIRS
@@ -226,7 +226,7 @@ class Classify(BaseInterface):
         
         np.save(os.path.abspath(base+"splits.npy"),splits)
         # determine
-        nprs=NPAIRS(dataAry, sexIQ, svcClassifier,splits)
+        nprs=NPAIRS(dataAry, imgSex, svcClassifier,splits)
         (pred,rep,leftcoefs,rightcoefs)=nprs.run()
         coefs = [leftcoefs,rightcoefs]
 
