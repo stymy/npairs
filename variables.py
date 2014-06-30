@@ -23,6 +23,8 @@ motionfiles = glob.glob(os.path.join(motiondir+'/*/power_params/_scan_rest_1_res
 subjects =  list(np.load('/data/Projects/ABIDE_Initiative/CPAC/abide/for_grant/zarrar_abide_sublist.npy'))
 subjects = [int(subject) for subject in subjects]
 
+mask_file = '/data/Projects/ABIDE_Initiative/CPAC/abide/for_grant/rois/mask_100percent.nii.gz'
+
 phenotyped_subs = set()
 motiontyped_subs = set()
 pheno_dict = defaultdict(list)

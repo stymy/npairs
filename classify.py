@@ -21,6 +21,7 @@ class ClassifyOutputSpec(TraitedSpec):
     sexs = traits.File(desc="sex labels")
     coefs = traits.File(desc='CLF coeffs')
     datary = traits.File(desc='data array for CLF')
+    contvar = trais.File(desc= 'continuous variables')
 
 class Classify(BaseInterface):
     input_spec = ClassifyInputSpec
